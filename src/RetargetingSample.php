@@ -13,6 +13,28 @@ require_once(dirname(__FILE__).'/SoapUtils.class.php');
 $retargetingTagService = SoapUtils::getService('RetargetingTagService');
 
 //-----------------------------------------------
+// RetargetingTagService::mutate(ADD)
+//-----------------------------------------------
+//request
+$addRetargetingTagRequest = array(
+        'operations' => array(
+                'operator' => 'ADD',
+                'accountId' => SoapUtils::getAccountId(),
+        ),
+);
+
+//call API
+$addRetargetingTagResponse = $retargetingTagService->invoke('mutate', $addRetargetingTagRequest);
+
+//response
+$retargetingTag = null;
+if(isset($addRetargetingTagResponse->rval->values->retargetingTag)){
+    $retargetingTag = $addRetargetingTagResponse->rval->values->retargetingTag;
+}else{
+    echo 'Fail to add RetargetingTag.';
+}
+
+//-----------------------------------------------
 // RetargetingTagService::get
 //-----------------------------------------------
 //request
@@ -387,6 +409,9 @@ $setSimilarityRetargetingListRequest = array(
                 'targetListId' => $similarityRetargetingList->targetListId,
                 'targetListName' => 'SampleSimilarity_UpdateOn_'.SoapUtils::getCurrentTimestamp(),
                 'description' => 'SampleSimilarity_UpdateOn_'.SoapUtils::getCurrentTimestamp(),
+                'targetList' => array(
+                    'targetListType' => 'SIMILARITY',
+                ),
             ),
         ),
     ),

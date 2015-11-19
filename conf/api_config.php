@@ -2,7 +2,7 @@
 //-----------------------------------------------------------------
 // common defines
 //-----------------------------------------------------------------
-define('API_VERSION', 'V5.0');
+define('API_VERSION', 'V5.2');
 define('API_NS',      'http://im.yahooapis.jp/V5');
 define('XMLSCHEMANS', 'http://www.w3.org/2001/XMLSchema-instance');
 

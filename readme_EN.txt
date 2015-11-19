@@ -1,10 +1,14 @@
 --------------------------------
 <<Version>>
 --------------------------------
-Ver.5.1.0
+Ver.5.2.0
 
 [Update history]
 -----------
+2015/11/18:
+- V5.2 Correspond to Carrier Targeting.
+- V5.2 Added RetargetingSample.
+
 2015/08/05:
 - V5.1 Renew the Report API.
 

@@ -17,8 +17,7 @@ $reportDefinitionService = SoapUtils::getService('ReportDefinitionService');
 //-----------------------------------------------
 // request
 $getReportFieldsParam = array(
-    'accountId' => SoapUtils::getAccountId(),
-    'reportType' => 'ACCOUNT',
+    'reportCategory' => 'AD',
 );
 
 // call API
@@ -34,9 +33,10 @@ $addReportDefinitionParam = array(
         'accountId' => SoapUtils::getAccountId(),
         'operand' => array(
             'reportName' => 'ACCOUNT-REPORT',
-            'reportType' => 'ACCOUNT',
             'dateRangeType' => 'YESTERDAY',
-            'sort' => '+ACCOUNTID',
+            'sortFields' => '+ACCOUNT_ID',
+            'fields' => array(
+            		'ACCOUNT_ID','AD_ID'),
             'format' => 'CSV',
             'encode' => 'SJIS',
             'lang' => 'EN',
@@ -66,10 +66,11 @@ $addFrequencyReportDefinitionParam = array(
         'accountId' => SoapUtils::getAccountId(),
         'operand' => array(
             'reportName' => 'REACH-FREQUENCY-REPORT',
-            'reportType' => 'REACH_FREQUENCY',
             'dateRangeType' => 'YESTERDAY',
-            'segments' => 'WEEK',
-            'sort' => '+FREQUENCYCOUNT',
+            'sortFields' => '+FREQUENCY',
+            'fields'     => array(
+            		'ACCOUNT_ID','ACCOUNT_NAME','FREQUENCY','IMPS','CLICK','UNIQUE_USERS'),
+        	'frequencyRange' => 'DAILY',
             'format' => 'CSV',
             'encode' => 'SJIS',
             'lang' => 'EN',
@@ -111,33 +112,6 @@ if(isset($getReportDefinitionResponse->rval->values->reportDefinition->reportId)
     exit();
 }
 
-//-----------------------------------------------
-// call ReportDefinitionService::mutate(SET)
-//-----------------------------------------------
-// request
-$setReportDefinitionParam = array(
-    'operations' => array(
-        'operator' => 'SET',
-        'accountId' => SoapUtils::getAccountId(),
-        'operand' => array(
-            'reportId' => $reportId,
-            'reportName' => 'ACCOUNT-REPORT-UPDATE',
-            'frequency' => 'EVERYSUN',
-        ),
-    ),
-);
-
-// call API
-$setReportDefinitionResponse = $reportDefinitionService->invoke('mutate', $setReportDefinitionParam);
-
-// reportId
-if(isset($setReportDefinitionResponse->rval->values->reportDefinition->reportId)){
-    $reportId = $setReportDefinitionResponse->rval->values->reportDefinition->reportId;
-}else{
-    echo 'Fail to set report definition.';
-    exit();
-}
-
 //=================================================================
 // ReportService
 //=================================================================
@@ -157,8 +131,8 @@ $getClosedDateRequest = array(
 $getClosedDateResponse = $reportService->invoke('getClosedDate', $getClosedDateRequest);
 
 //closed date
-if(isset($getClosedDateResponse->rval->closedDate)){
-    $closedDate = $getClosedDateResponse->rval->closedDate;
+if(isset($getClosedDateResponse->rval->values)){
+    $closedDateRecords = $getClosedDateResponse->rval->values;
 }else{
     echo 'Fail to get report closed date.';
     exit();
@@ -256,10 +230,9 @@ if(isset($getDownloadUrlResponse->rval->values->reportDownloadUrl->downloadUrl))
 // download report
 //-----------------------------------------------
 // file name
-$reportType = $addReportDefinitionResponse->rval->values->reportDefinition->reportType;
 $format = $addReportDefinitionResponse->rval->values->reportDefinition->format;
 $fileext = strtolower($format);
-$file_name = 'Report_'.$reportType.'_'.$reportJobId.'.'.$fileext;
+$file_name = 'Report_'.$reportJobId.'.'.$fileext;
 
 // download
 SoapUtils::download($download_url, $file_name);

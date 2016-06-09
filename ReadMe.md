@@ -1,5 +1,5 @@
 # YDN API PHPサンプルプログラム
-YDN API Ver.5.2向けのPHPサンプルプログラムです。<br>
+YDN API Ver.5.3向けのPHPサンプルプログラムです。<br>
 ご利用前に、以下のreadmeをご確認ください。<br>
 ### [日本語 (Japanese)](./readme_JA.txt)
 

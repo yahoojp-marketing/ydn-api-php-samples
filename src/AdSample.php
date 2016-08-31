@@ -285,8 +285,6 @@ $addAdGroupAdRequest = array(
     'operations' => array(
         'operator' => 'ADD',
         'accountId' => SoapUtils::getAccountId(),
-        'campaignId' => $campaign->campaignId,
-        'adGroupId' => $adGroup->adGroupId,
         'operand' => array(
             array(
                 'accountId' => SoapUtils::getAccountId(),
@@ -306,7 +304,7 @@ $addAdGroupAdRequest = array(
                     'headline' => 'sample headline',
                     'description' => 'sample ad desc',
                     'description2' => 'sample ad desc2',
-                ),
+                )
             ),
         ),
     ),
@@ -379,8 +377,6 @@ $setAdGroupAdRequest = array(
     'operations' => array(
         'operator' => 'SET',
         'accountId' => SoapUtils::getAccountId(),
-        'campaignId' => $campaign->campaignId,
-        'adGroupId' => $adGroup->adGroupId,
         'operand' => array(
             array(
                 'accountId' => SoapUtils::getAccountId(),
@@ -400,7 +396,7 @@ $setAdGroupAdRequest = array(
                     'headline' => 'sample headline',
                     'description' => 'sample ad desc',
                     'description2' => 'sample ad desc2',
-                ),
+                )
             ),
         ),
     ),
@@ -573,8 +569,6 @@ $removeAdGroupAdRequest = array(
     'operations' => array(
         'operator' => 'REMOVE',
         'accountId' => SoapUtils::getAccountId(),
-        'campaignId' => $campaign->campaignId,
-        'adGroupId' => $adGroup->adGroupId,
         'operand' => array(
             array(
                 'accountId' => SoapUtils::getAccountId(),

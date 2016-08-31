@@ -22,7 +22,9 @@ $searchKeywordIdeaService = SoapUtils::getService('SearchKeywordIdeaService');
 //request
 $getSearchKeywordIdeaRequest = array(
        'selector' => array(
-             'keywords' => array('gizmo','vlookup')
+             'keywords' => array('gizmo','vlookup'),
+       		 'searchKeywordRecency' => 'WITHIN_30DAYS',
+       		 'searchKeywordFrequency' => 'ONCE_OR_MORE'
         )
 );
 
@@ -64,6 +66,8 @@ $addRequest = array(
              'accountId'                    => $accountId,
              'searchKeywordListName'        => 'SampleSearchKeywordList_CreateOn_' . SoapUtils::getCurrentTimestamp(),
              'searchKeywordListDescription' => 'SampleSearchKeywordListDescription_CreateOn_' . SoapUtils::getCurrentTimestamp(),
+             'searchKeywordRecency'         => 'WITHIN_30DAYS',
+             'searchKeywordFrequency'       => 'ONCE_OR_MORE',
              'searchKeyword'                => $searchKeyword
             )
          )
@@ -125,6 +129,8 @@ $setRequest = array(
             'searchKeywordListId'          => $searchKeywordListId,
             'searchKeywordListName'        => 'SampleSearchKeywordList_UpdateOn_' . SoapUtils::getCurrentTimestamp(),
             'searchKeywordListDescription' => 'SampleSearchKeywordListDescription_UpdateOn_' . SoapUtils::getCurrentTimestamp(),
+            'searchKeywordRecency'         => 'WITHIN_1DAY',
+            'searchKeywordFrequency'       => 'TWICE_OR_MORE',
             'searchKeyword'                => $searchKeyword
             )
         )

@@ -1,10 +1,14 @@
 --------------------------------
 <<Version>>
 --------------------------------
-Ver.5.3.0
+Ver.5.4.0
 
 [Update history]
 -----------
+2016/08/31:
+- V5.4 Correspond to Search Targeting (Search Recency/Frequency).
+- V5.4 Correspond to specification of multiple campaigns/ad groups of AdGroupAdService on AdSample.
+
 2016/04/20:
 - V5.3 Added AuditLogDownloadSample, StatsSample.
 

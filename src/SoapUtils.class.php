@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__).'/Service.class.php');
+require_once(dirname(__FILE__) . '/Service.class.php');
 
 define('LOCATION_CACHE_FILE', './location_cache.txt');
 
@@ -7,16 +7,19 @@ define('LOCATION_CACHE_FILE', './location_cache.txt');
  * Utility method collection for PHP Sample Program.
  * Copyright (C) 2012 Yahoo Japan Corporation. All Rights Reserved.
  */
-class SoapUtils {
+class SoapUtils
+{
 
     private static $locationCache; // cache of location for accountId.
+    const METH_POST = "POST";
 
     /**
      * get Account ID from config file.
      * @return long account ID
      * @access public
      */
-    public static function getAccountId(){
+    public static function getAccountId()
+    {
         return ACCOUNTID;
     }
 
@@ -26,8 +29,9 @@ class SoapUtils {
      * @return string WSDL URL
      * @access public
      */
-    public static function getWsdlURL($service_name){
-        return 'https://'.LOCATION.'/services/'.API_VERSION.'/'.$service_name.'?wsdl';
+    public static function getWsdlURL($service_name)
+    {
+        return 'https://' . LOCATION . '/services/' . API_VERSION . '/' . $service_name . '?wsdl';
     }
 
     /**
@@ -36,8 +40,9 @@ class SoapUtils {
      * @return string endpoint URL
      * @access public
      */
-    public static function getServiceEndPointURL($service_name){
-        return 'https://'.self::getLocation(self::getAccountId()).'/services/'.API_VERSION.'/'.$service_name;
+    public static function getServiceEndPointURL($service_name)
+    {
+        return 'https://' . self::getLocation(self::getAccountId()) . '/services/' . API_VERSION . '/' . $service_name;
     }
 
     /**
@@ -45,33 +50,34 @@ class SoapUtils {
      * @return colocation server name for accountId.
      * @access public
      */
-    public static function getLocation($accountId){
-        if(isset(self::$locationCache[$accountId])){
+    public static function getLocation($accountId)
+    {
+        if (isset(self::$locationCache[$accountId])) {
             return self::$locationCache[$accountId];
-        }else{
+        } else {
             // read location cache file
             self::$locationCache = array();
-            if(is_readable(LOCATION_CACHE_FILE)){
+            if (is_readable(LOCATION_CACHE_FILE)) {
                 $cache = file_get_contents(LOCATION_CACHE_FILE);
                 self::$locationCache = unserialize($cache);
             }
 
-            if(isset(self::$locationCache[$accountId])){
+            if (isset(self::$locationCache[$accountId])) {
                 // return cached location
                 $cachedLocation = self::$locationCache[$accountId];
-            }else{
+            } else {
                 // get LocationService Stub
                 $locationService = self::getService('LocationService');
                 // call API
                 $response = $locationService->invoke('get', array('accountId' => $accountId));
                 // response
-                if(isset($response->rval->value)){
+                if (isset($response->rval->value)) {
                     // save cache
                     $cachedLocation = $response->rval->value;
                     self::$locationCache[$accountId] = $cachedLocation;
                     $cache = serialize(self::$locationCache);
                     file_put_contents(LOCATION_CACHE_FILE, $cache);
-                }else{
+                } else {
                     echo 'Error : Fail to get Location.';
                     exit();
                 }
@@ -86,8 +92,9 @@ class SoapUtils {
      * @param string $file_name save file name(not path, file name only).
      * @access public
      */
-    public static function download($download_url, $file_name){
-        $file_path = dirname(__FILE__).'/../download/'.$file_name;
+    public static function download($download_url, $file_name)
+    {
+        $file_path = dirname(__FILE__) . '/../download/' . $file_name;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $download_url);
@@ -114,12 +121,20 @@ class SoapUtils {
      * @param string $file_name upload file name(not path, file name only).
      * @access public
      */
-    public static function upload($upload_url, $file_name){
-        $file_path = dirname(__FILE__).'/../upload/'.$file_name;
+    public static function upload($upload_url, $file_name)
+    {
+        $file_path = dirname(__FILE__) . '/../upload/' . $file_name;
 
-        $req = new HttpRequest( $upload_url, HttpRequest::METH_POST );
+        $req = new http\Client\Request("POST", $upload_url);
+        $client = new http\Client;
 
-        $req->addPostFile( 'upfile', $file_path );
+        $req->getBody()->addForm([], [
+            [
+                "name" => "upfile",
+                "type" => "video/mpeg",
+                "file" => $file_path
+            ]
+        ]);
 
         echo "------------------------------------\n";
         echo "Start upload. \n";
@@ -128,22 +143,23 @@ class SoapUtils {
         echo "------------------------------------\n";
 
         try {
-            $message = $req->send();
-            echo "$message\n";
-        } catch ( Exception $e ) {
-            echo 'Fail to upload file.';
+            $client->enqueue($req)->send();
+            $response = $client->getResponse($req);
+            echo "$response\n";
+        } catch (Exception $e) {
+            echo "Fail to upload file.\n";
             var_dump($e);
             return false;
         }
 
-        if ( $req->getResponseCode() != 200 ) {
-            echo 'Fail to upload file.';
+        if ($response->getTransferInfo("response_code") != 200) {
+            echo "Fail to upload file.\n";
             var_dump($req);
             return false;
         }
 
-        echo 'Success to upload file.';
-        return $message->getBody();
+        echo "Success to upload file.\n";
+        return $response->getBody();
     }
 
     /**
@@ -152,10 +168,11 @@ class SoapUtils {
      * @return Service SOAP API Service Stub Object
      * @access public
      */
-    public static function getService($service_name){
-        if($service_name === 'LocationService'){
-            return new Service(self::getWsdlURL('LocationService'), 'https://'.LOCATION.'/services/'.API_VERSION.'/LocationService');
-        }else{
+    public static function getService($service_name)
+    {
+        if ($service_name === 'LocationService') {
+            return new Service(self::getWsdlURL('LocationService'), 'https://' . LOCATION . '/services/' . API_VERSION . '/LocationService');
+        } else {
             return new Service(self::getWsdlURL($service_name), self::getServiceEndPointURL($service_name));
         }
     }
@@ -165,7 +182,8 @@ class SoapUtils {
      * @return current timestamp
      * @access public
      */
-    public static function getCurrentTimestamp(){
+    public static function getCurrentTimestamp()
+    {
         return date("YmdHis");
     }
 }

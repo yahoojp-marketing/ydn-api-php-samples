@@ -1,10 +1,22 @@
 --------------------------------
+ご注意：　Yahoo!プロモーション広告API - サンプルコードの利用に関して
+--------------------------------
+
+Yahoo! JAPANの提供するAPIに関するサンプルコードは、別途Yahoo! JAPANとの間で締結いただいた当該APIの提供に関する契約に基づき、APIユーザー様に提供されるものであり、Yahoo! JAPANとの間で当該契約を締結いただいていない場合は、サンプルコードをご利用いただけません。 
+また、APIユーザー様に予め通知することなく、サンプルコードの内容や仕様の変更または提供の停止もしくは中止をする場合がありますので、予めご了承のうえご利用ください。
+
+
+--------------------------------
 【バージョン】
 --------------------------------
-Ver.5.4.0
+Ver.6.0.0
 
 ■変更履歴
 -----------
+2017/05/24:
+- V6.0 VideoSampleを追加しました。
+- V6.0 Yahoo! DMPに対応しました。
+
 2016/08/31:
 - V5.4 検索リーセンシー・フリークエンシー(サーチターゲティング)に対応しました。
 - V5.4 AdSampleにてAdGroupAdServiceのキャンペーン、広告グループ複数指定に対応しました。
@@ -98,6 +110,7 @@ PHPのSoapClientライブラリを使用してAPIを呼び出す形になって�
 - SearchKeywordSample.php     ：SearchKeywordIdeaService,SearchKeywordListServiceを使用したサーチターゲティング処理のサンプルです。
 - PlacementUrlSample.php      ：PlacementUrlIdeaService,PlacementUrlListServiceを使用したプレイスメントターゲティング処理のサンプルです。
 - StatsSample.php             ：StatsServiceを使用した統計情報処理のサンプルです。
+- VideoSample.php             ：AdSample.phpにVideoServiceを加えた画像広告の入稿処理のサンプルです。
 
 ・以下は各サンプルプログラムから利用されるクラスです。
 
@@ -108,7 +121,7 @@ PHPのSoapClientライブラリを使用してAPIを呼び出す形になって�
 ReportDownloadSample、BulkDownloadSample、BulkUploadSample、AuditLogDownloadSampleを実行した際に、ダウンロードしたデータがファイルとして格納されるディレクトリです。
 
 ■uploadディレクトリ
-MediaSample、BulkUploadSample、FeedUploadSampleでアップロードするファイルをあらかじめ格納しておくディレクトリです。
+MediaSample、BulkUploadSample、FeedUploadSample, VideoSampleでアップロードするファイルをあらかじめ格納しておくディレクトリです。
 
 
 --------------------------------
@@ -156,6 +169,7 @@ $ php src/RetargetingSample.php
 $ php src/SearchKeywordSample.php
 $ php src/PlacementUrlSample.php
 $ php src/StatsService.php
+$ php src/VideoService.php
 ---------------------------------------
 
 データをダウンロードする処理を実行した場合には、downloadディレクトリにファイルが格納されます。
@@ -164,4 +178,5 @@ $ php src/StatsService.php
 サンプルプログラムごとにファイル名は固定です。
 
 ・MediaSample.phpの場合　　　 ：SampleMedia.jpg
-・BulkUploadSample.phpの場合　：SampleBulkUpload.csv
+・BulkUploadSample.phpの場合 ：SampleBulkUpload.csv
+・VideoSample.phpの場合      ：SampleVideoUpload.mp4

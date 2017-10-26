@@ -586,12 +586,12 @@ if (isset($setAdGroupAdResponse->rval->values->adGroupAd)) {
 $adGroupTargetService = SoapUtils::getService('AdGroupTargetService');
 
 //-----------------------------------------------
-// AdGroupTargetService::mutate(SET)
+// AdGroupTargetService::mutate(ADD)
 //-----------------------------------------------
 //request
-$setAdGroupTargetRequest = array(
+$addAdGroupTargetRequest = array(
     'operations' => array(
-        'operator' => 'SET',
+        'operator' => 'ADD',
         'accountId' => SoapUtils::getAccountId(),
         'campaignId' => $campaign->campaignId,
         'operand' => array(
@@ -599,66 +599,33 @@ $setAdGroupTargetRequest = array(
                 'accountId' => SoapUtils::getAccountId(),
                 'campaignId' => $campaign->campaignId,
                 'adGroupId' => $adGroup->adGroupId,
-                'targets' => array(
-                    array(
-                        'accountId' => SoapUtils::getAccountId(),
-                        'campaignId' => $campaign->campaignId,
-                        'adGroupId' => $adGroup->adGroupId,
-                        'type' => 'AD_SCHEDULE_TARGET',
-                        'targets' => array(
-                            array(
-                                'type' => 'AD_SCHEDULE_TARGET',
-                                'dayOfWeek' => 'MONDAY',
-                                'startHour' => '13',
-                                'endHour' => '14',
-                            ),
-                            array(
-                                'type' => 'AD_SCHEDULE_TARGET',
-                                'dayOfWeek' => 'TUESDAY',
-                                'startHour' => '14',
-                                'endHour' => '15',
-                            ),
-                        ),
-                    ),
-                    array(
-                        'accountId' => SoapUtils::getAccountId(),
-                        'campaignId' => $campaign->campaignId,
-                        'adGroupId' => $adGroup->adGroupId,
-                        'type' => 'GENDER_TARGET',
-                        'targets' => array(
-                            array(
-                                'type' => 'GENDER_TARGET',
-                                'gender' => 'ST_MALE',
-                            ),
-                        ),
-                    ),
-                ),
+                'bidMultiplier' => 1.15,
+                'target' => array(
+                    'type' => 'AD_SCHEDULE_TARGET',
+                    'dayOfWeek' => 'MONDAY',
+                    'startHour' => '13',
+                    'endHour' => '14',
+                )
             ),
         ),
     ),
 );
-
-//xsi:type for targets of AdScheduleTargetList
-$setAdGroupTargetRequest['operations']['operand'][0]['targets'][0] =
-    new SoapVar($setAdGroupTargetRequest['operations']['operand'][0]['targets'][0],
-        SOAP_ENC_OBJECT, 'AdScheduleTargetList', API_NS, 'targets', XMLSCHEMANS);
-
-//xsi:type for targets of GenderTargetList
-$setAdGroupTargetRequest['operations']['operand'][0]['targets'][1] =
-    new SoapVar($setAdGroupTargetRequest['operations']['operand'][0]['targets'][1],
-        SOAP_ENC_OBJECT, 'GenderTargetList', API_NS, 'targets', XMLSCHEMANS);
+//xsi:type for targets of AdScheduleTarget
+$addAdGroupTargetRequest['operations']['operand'][0]['target'] =
+    new SoapVar($addAdGroupTargetRequest['operations']['operand'][0]['target'],
+        SOAP_ENC_OBJECT, 'AdScheduleTarget', API_NS, 'target', XMLSCHEMANS);
 
 //call API
-$setAdGroupTargetResponse = $adGroupTargetService->invoke('mutate', $setAdGroupTargetRequest);
+$addAdGroupTargetResponse = $adGroupTargetService->invoke('mutate', $addAdGroupTargetRequest);
 
 //response
-if (isset($setAdGroupTargetResponse->rval->values->targetList)) {
-    $targetList = $setAdGroupTargetResponse->rval->values->targetList;
+if (isset($addAdGroupTargetResponse->rval->values->adGroupTargetList)) {
+    $targetList = $addAdGroupTargetResponse->rval->values->adGroupTargetList;
 } else {
-    if (isset($setAdGroupTargetResponse->rval->values[0]->targetList)) {
-        $targetList = $setAdGroupTargetResponse->rval->values[0]->targetList;
+    if (isset($addAdGroupTargetResponse->rval->values[0]->adGroupTargetList)) {
+        $targetList = $addAdGroupTargetResponse->rval->values[0]->adGroupTargetList;
     } else {
-        echo 'Fail to set AdGroupTarget.';
+        echo 'Fail to add AdGroupTarget.';
         exit();
     }
 }
@@ -683,11 +650,11 @@ $getAdGroupTargetRequest = array(
 $getAdGroupTargetResponse = $adGroupTargetService->invoke('get', $getAdGroupTargetRequest);
 
 //response
-if (isset($getAdGroupTargetResponse->rval->values->targetList)) {
-    $targetList = $getAdGroupTargetResponse->rval->values->targetList;
+if (isset($getAdGroupTargetResponse->rval->values->adGroupTargetList)) {
+    $targetList = $getAdGroupTargetResponse->rval->values->adGroupTargetList;
 } else {
-    if (isset($getAdGroupTargetResponse->rval->values[0]->targetList)) {
-        $targetList = $getAdGroupTargetResponse->rval->values[0]->targetList;
+    if (isset($getAdGroupTargetResponse->rval->values[0]->adGroupTargetList)) {
+        $targetList = $getAdGroupTargetResponse->rval->values[0]->adGroupTargetList;
     } else {
         echo 'Fail to get AdGroupTarget.';
         exit();
@@ -729,6 +696,50 @@ if (isset($removeAdGroupAdResponse->rval->values->adGroupAd)) {
         $removedAdGroupAd = $removeAdGroupAdResponse->rval->values[0]->adGroupAd;
     } else {
         echo 'Fail to remove AdGroupAd.';
+        exit();
+    }
+}
+
+//-----------------------------------------------
+// AdGroupTargetService::mutate(REMOVE)
+//-----------------------------------------------
+//request
+$removeAdGroupTargetRequest = array(
+    'operations' => array(
+        'operator' => 'REMOVE',
+        'accountId' => SoapUtils::getAccountId(),
+        'campaignId' => $campaign->campaignId,
+        'operand' => array(
+            array(
+                'accountId' => SoapUtils::getAccountId(),
+                'campaignId' => $campaign->campaignId,
+                'adGroupId' => $adGroup->adGroupId,
+                'bidMultiplier' => 1.15,
+                'target' => array(
+                    'type' => 'AD_SCHEDULE_TARGET',
+                    'targetId' => $targetList->target->targetId,
+                )
+            ),
+        ),
+    ),
+);
+
+//xsi:type for targets of AdScheduleTarget
+$removeAdGroupTargetRequest['operations']['operand'][0]['target'] =
+    new SoapVar($removeAdGroupTargetRequest['operations']['operand'][0]['target'],
+        SOAP_ENC_OBJECT, 'AdScheduleTarget', API_NS, 'target', XMLSCHEMANS);
+
+//call API
+$removeAdGroupTargetResponse = $adGroupTargetService->invoke('mutate', $removeAdGroupTargetRequest);
+
+//response
+if (isset($removeAdGroupTargetResponse->rval->values->adGroupTargetList)) {
+    $targetList = $removeAdGroupTargetResponse->rval->values->adGroupTargetList;
+} else {
+    if (isset($removeAdGroupTargetResponse->rval->values[0]->adGroupTargetList)) {
+        $targetList = $removeAdGroupTargetResponse->rval->values[0]->adGroupTargetList;
+    } else {
+        echo 'Fail to remove AdGroupTarget.';
         exit();
     }
 }

@@ -27,9 +27,7 @@ $getBulkDownloadParam = array(
         'mediaApprovalStatuses' => 'APPROVED',
         'entityTypes' => 'ALL',
         'downloadType' => 'CAMPAIGN',
-        'lang' => 'JA',
         'output' => 'CSV',
-        'encoding' => 'SJIS',
     ),
 );
 

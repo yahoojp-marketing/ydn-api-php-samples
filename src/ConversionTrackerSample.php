@@ -34,6 +34,10 @@ $addRequest = array(
          )
     )
 );
+//xsi:type for operand of WebConversion
+$addRequest['operations']['operand'][0] =
+    new SoapVar($addRequest['operations']['operand'][0],
+        SOAP_ENC_OBJECT, 'WebConversion', API_NS,'operand',XMLSCHEMANS);
 
 //call API
 $addResponse = $conversionTrackerService->invoke('mutate', $addRequest);

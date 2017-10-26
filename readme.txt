@@ -9,10 +9,16 @@ Yahoo! JAPANの提供するAPIに関するサンプルコードは、別途Yahoo
 --------------------------------
 【バージョン】
 --------------------------------
-Ver.6.0.0
+Ver.6.1.0
 
 ■変更履歴
 -----------
+2017/10/25
+ - V6.1 アプリキャンペーンに対応しました。
+ - V6.1 AdSampleにてAdGroupTargetServiceの入札価格調整率に対応しました。
+ - V6.1 ReportDownloadSampleのADDのレスポンスにダウンロードURLを追加しました。
+ - V6.1 DictionarySampleにてDictionaryServiceのOSバージョン取得、入稿用画像形式取得を追加しました。
+
 2017/05/24:
 - V6.0 VideoSampleを追加しました。
 - V6.0 Yahoo! DMPに対応しました。
@@ -103,7 +109,7 @@ PHPのSoapClientライブラリを使用してAPIを呼び出す形になって�
 - BulkDownloadSample.php      ：BulkServiceによるダウンロード処理のサンプルです。
 - BulkUploadSample.php        ：BulkServiceによるアップロード処理のサンプルです。
 - ConversionTrackerSample.php ：ConversionTrackerServiceによるコンバージョン情報の登録、更新処理のサンプルです。
-- DictionarySample.php        ：DictionaryServiceによる地域データ、審査否認理由、ターゲット設定用マスタデータ参照処理のサンプルです。
+- DictionarySample.php        ：DictionaryServiceによる地域データ、審査否認理由、ターゲット設定用マスタデータ、OSバージョン、入稿用画像形式参照処理のサンプルです。
 - MediaSample.php             ：AdSample.phpにMediaServiceを加えた画像広告の入稿処理のサンプルです。
 - ReportDownloadSample.php    ：ReportDefinitionService, ReportServiceを使用したレポートダウンロード処理のサンプルです。
 - RetargetingSample.php       ：RetargetingTagService, RetargetingListServiceを使用したリターゲティング処理のサンプルです。

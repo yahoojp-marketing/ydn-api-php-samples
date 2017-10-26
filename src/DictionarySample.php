@@ -45,7 +45,7 @@ $getGeographicLocationRequest = array(
 $getGeographicLocationResponse = $dictionaryService->invoke('getGeographicLocation',$getGeographicLocationRequest);
 
 //response
-if(!isset($getgetGeographicLocationResponse->rval->values)){
+if(!isset($getGeographicLocationResponse->rval->values)){
     echo 'Fail to getGeographicLocation.';
     exit();
 }
@@ -91,9 +91,9 @@ if(!isset($getSiteCategoryResponse->rval->values)){
 // DictionaryService::getColorSet
 //-----------------------------------------------
 $getColorSetRequest = array(
-		'selector' => array(
-				'lang' => 'JA',
-		),
+        'selector' => array(
+            'lang' => 'JA',
+        ),
 );
 
 //call API
@@ -103,4 +103,33 @@ $getColorSetResponse = $dictionaryService->invoke('getColorSet', $getColorSetReq
 if(!isset($getColorSetResponse->rval->values)){
 	echo 'Fail to get ColorSet.';
 	exit();
+}
+
+//-----------------------------------------------
+// DictionaryService::getOsVersion
+//-----------------------------------------------
+$getOsVersionRequest = array(
+    'selector' => array(
+        'osType' => 'ANDROID',
+    ),
+);
+//call API
+$getOsVersionResponse = $dictionaryService->invoke('getOsVersion', $getOsVersionRequest);
+
+//response
+if(!isset($getOsVersionResponse->rval->values)){
+    echo 'Fail to get OsVersion.';
+    exit();
+}
+
+//-----------------------------------------------
+// DictionaryService::getMediaAdFormat
+//-----------------------------------------------
+//call API
+$getMediaAdFormatResponse = $dictionaryService->invoke('getMediaAdFormat', null);
+
+//response
+if(!isset($getMediaAdFormatResponse->rval->values)){
+    echo 'Fail to get MediaAdFormat.';
+    exit();
 }

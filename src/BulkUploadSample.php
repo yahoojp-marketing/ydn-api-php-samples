@@ -18,6 +18,7 @@ $bulkService = SoapUtils::getService('BulkService');
 //request
 $getUploadUrlRequest = array(
     'accountId' => SoapUtils::getAccountId(),
+    'uploadBulkJobName' => 'sample-job-name'
 );
 
 //call API
@@ -64,9 +65,7 @@ $getBulkUploadStatusRequest = array(
     'selector' => array(
         'accountId' => SoapUtils::getAccountId(),
         'uploadBulkJobIds' => array($uploadBulkJobId),
-        'lang' => 'JA',
         'output' => 'CSV',
-        'encoding' => 'SJIS',
         'paging' => array(
             'startIndex' => 1,
             'numberResults' => 20,

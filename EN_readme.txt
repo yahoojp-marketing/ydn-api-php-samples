@@ -10,10 +10,16 @@ Additionally, please note before using it that Yahoo Japan Corporation may chang
 --------------------------------
 <<Version>>
 --------------------------------
-Ver.6.0.0
+Ver.6.1.0
 
 [Update history]
 -----------
+2017/10/25
+ - V6.1 Correspond to Mobile App campaign.　
+ - V6.1 Correspond to specification of bid multiplier of AdGroupTargetService on AdSample.
+ - V6.1 Added report download url to response of ADD of ReportDownloadSample.
+ - V6.1 Added Get operation for OS version data, image format data for ads via DictionaryService on DictionarySample.
+
 2017/05/24:
 - V6.0 Added VideoSample.
 - V6.0 Correspond to Yahoo! DMP.
@@ -104,7 +110,7 @@ The following programs are stored.
 - BulkDownloadSample.php      : Sample of download process via BulkService.
 - BulkUploadSample.php        : Sample of upload process via BulkService.
 - ConversionTrackerSample.php : Sample of Mutate operation for conversion information via ConversionTrackerService.
-- DictionarySample.php        : Sample of Get operation for LOCATION data, rejected reasons, target setting data via DictionaryService.
+- DictionarySample.php        : Sample of Get operation for LOCATION data, rejected reasons, target setting data, OS version data, image format data for ads via DictionaryService.
 - MediaSample.php             : Sample of ad creation of Image ads, which MediaService Added to AdSample.php.
 - ReportDownloadSample.php    : Sample of Report download via ReportDefinitionService and ReportService.
 - RetargetingSample.php       : Sample of Retargeting via RetargetingTagService and RetargetingListService.

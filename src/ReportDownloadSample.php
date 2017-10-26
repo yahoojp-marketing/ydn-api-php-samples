@@ -69,8 +69,8 @@ $addFrequencyReportDefinitionParam = array(
             'dateRangeType' => 'YESTERDAY',
             'sortFields' => '+FREQUENCY',
             'fields'     => array(
-            		'ACCOUNT_ID','ACCOUNT_NAME','FREQUENCY','IMPS','CLICK','UNIQUE_USERS'),
-        	'frequencyRange' => 'DAILY',
+                'ACCOUNT_ID','ACCOUNT_NAME', 'CAMPAIGN_NAME', 'DAY', 'FREQUENCY','IMPS','CLICK','UNIQUE_USERS'),
+            'frequencyRange' => 'DAILY',
             'format' => 'CSV',
             'encode' => 'SJIS',
             'lang' => 'EN',
@@ -175,6 +175,7 @@ $getReportParam = array(
 );
 
 //call 30sec sleep * 30 = 15minute
+$download_url = null;
 for($i=0; $i<30; $i++){
     // sleep 30 second.
     echo "\n***** sleep 30 seconds for Report Download Job *****\n";
@@ -187,6 +188,7 @@ for($i=0; $i<30; $i++){
     if(isset($getReportResponse->rval->values->reportRecord->status)){
         $jobStatus = $getReportResponse->rval->values->reportRecord->status;
         if($jobStatus === 'COMPLETED'){
+            $download_url = $getReportResponse->rval->values->reportRecord->reportDownloadUrl;
             break;
         }else if($jobStatus === 'ACCEPTED' || $jobStatus === 'IN_PROGRESS'){
             continue;
@@ -202,27 +204,6 @@ for($i=0; $i<30; $i++){
 
 if(!isset($jobStatus)){
     echo 'Report job in process on long time. please wait.';
-    exit();
-}
-
-//-----------------------------------------------
-// call ReportService::getDownloadUrl
-//-----------------------------------------------
-// request
-$getDownloadUrlParam = array(
-    'selector' => array(
-        'accountId' => SoapUtils::getAccountId(),
-        'reportJobIds' => array($reportJobId),
-    ),
-);
-
-// call API
-$getDownloadUrlResponse = $reportService->invoke('getDownloadUrl', $getDownloadUrlParam);
-
-if(isset($getDownloadUrlResponse->rval->values->reportDownloadUrl->downloadUrl)){
-    $download_url = $getDownloadUrlResponse->rval->values->reportDownloadUrl->downloadUrl;
-}else{
-    echo 'Fail to get Report download URL.';
     exit();
 }
 

@@ -128,13 +128,13 @@ class SoapUtils
         $req = new http\Client\Request("POST", $upload_url);
         $client = new http\Client;
 
-        $req->getBody()->addForm([], [
-            [
+        $req->getBody()->addForm(array(), array(
+            array(
                 "name" => "upfile",
                 "type" => "video/mpeg",
                 "file" => $file_path
-            ]
-        ]);
+            )
+        ));
 
         echo "------------------------------------\n";
         echo "Start upload. \n";

@@ -120,8 +120,7 @@ $addRuleRetargetingListRequest = array(
 
 //xsi:type for targetList of RuleTargetList
 $addRuleRetargetingListRequest['operations']['operand'][0]['targetList'] =
-new SoapVar($addRuleRetargetingListRequest['operations']['operand'][0]['targetList'],
-    SOAP_ENC_OBJECT, 'RuleTargetList', API_NS, 'targetList', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($addRuleRetargetingListRequest['operations']['operand'][0]['targetList'], 'RuleTargetList','RetargetingList' , 'targetList');
 
 //call API
 $addRuleRetargetingListResponse = $retargetingListService->invoke('mutate', $addRuleRetargetingListRequest);
@@ -168,8 +167,7 @@ $addCombinationRetargetingListRequest = array(
 
 //xsi:type for targetList of CombinationTargetList
 $addCombinationRetargetingListRequest['operations']['operand'][0]['targetList'] =
-new SoapVar($addCombinationRetargetingListRequest['operations']['operand'][0]['targetList'],
-    SOAP_ENC_OBJECT, 'CombinationTargetList', API_NS, 'targetList', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($addCombinationRetargetingListRequest['operations']['operand'][0]['targetList'], 'CombinationTargetList','RetargetingList' , 'targetList');
 
 //call API
 $addCombinationRetargetingListResponse = $retargetingListService->invoke('mutate', $addCombinationRetargetingListRequest);
@@ -235,8 +233,7 @@ $addSimilarityRetargetingListRequest = array(
 
 //xsi:type for targetList of SimilarityTargetList
 $addSimilarityRetargetingListRequest['operations']['operand'][0]['targetList'] =
-new SoapVar($addSimilarityRetargetingListRequest['operations']['operand'][0]['targetList'],
-    SOAP_ENC_OBJECT, 'SimilarityTargetList', API_NS, 'targetList', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($addSimilarityRetargetingListRequest['operations']['operand'][0]['targetList'], 'SimilarityTargetList','RetargetingList' , 'targetList');
 
 //call API
 $addSimilarityRetargetingListResponse = $retargetingListService->invoke('mutate', $addSimilarityRetargetingListRequest);
@@ -329,8 +326,7 @@ $setRuleRetargetingListRequest = array(
 
 //xsi:type for targetList of RuleTargetList
 $setRuleRetargetingListRequest['operations']['operand'][0]['targetList'] =
-new SoapVar($setRuleRetargetingListRequest['operations']['operand'][0]['targetList'],
-    SOAP_ENC_OBJECT, 'RuleTargetList', API_NS, 'targetList', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($setRuleRetargetingListRequest['operations']['operand'][0]['targetList'], 'RuleTargetList','RetargetingList' , 'targetList');
 
 //call API
 $setRuleRetargetingListResponse = $retargetingListService->invoke('mutate', $setRuleRetargetingListRequest);
@@ -378,8 +374,7 @@ $setCombinationRetargetingListRequest = array(
 
 //xsi:type for targetList of CombinationTargetList
 $setCombinationRetargetingListRequest['operations']['operand'][0]['targetList'] =
-new SoapVar($setCombinationRetargetingListRequest['operations']['operand'][0]['targetList'],
-    SOAP_ENC_OBJECT, 'CombinationTargetList', API_NS, 'targetList', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($setCombinationRetargetingListRequest['operations']['operand'][0]['targetList'], 'CombinationTargetList','RetargetingList' , 'targetList');
 
 //call API
 $setCombinationRetargetingListResponse = $retargetingListService->invoke('mutate', $setCombinationRetargetingListRequest);

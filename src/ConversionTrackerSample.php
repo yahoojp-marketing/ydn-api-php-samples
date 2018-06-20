@@ -29,15 +29,16 @@ $addRequest = array(
              'conversionTrackerName'       => 'SampleConversionTracker_CreateOn_' . SoapUtils::getCurrentTimestamp(),
              'status'                      => 'ENABLED',
              'category'                    => 'PURCHASE',
-           	 'conversionTrackerType'       => 'WEB_CONVERSION'
+           	 'conversionTrackerType'       => 'WEB_CONVERSION',
+             'countingType'                => 'MANY_PER_CLICK',
+             'excludeFromBidding'          => 'FALSE',
             )
          )
     )
 );
 //xsi:type for operand of WebConversion
 $addRequest['operations']['operand'][0] =
-    new SoapVar($addRequest['operations']['operand'][0],
-        SOAP_ENC_OBJECT, 'WebConversion', API_NS,'operand',XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($addRequest['operations']['operand'][0], 'WebConversion','ConversionTracker' , 'operand');
 
 //call API
 $addResponse = $conversionTrackerService->invoke('mutate', $addRequest);
@@ -90,7 +91,9 @@ $setRequest = array(
             'status'                       => 'DISABLED',
             'category'                     => 'PAGE_VIEW',
             'userRevenueValue'             => 300,
-            'conversionTrackerType'        => 'WEB_CONVERSION'
+            'conversionTrackerType'        => 'WEB_CONVERSION',
+            'countingType'                 => 'MANY_PER_CLICK',
+            'excludeFromBidding'           => 'FALSE',
             )
         )
     )

@@ -47,8 +47,7 @@ $addCampaignRequest = array(
 
 //xsi:type for biddingStrategy
 $addCampaignRequest['operations']['operand'][0]['biddingStrategy'] =
-    new SoapVar($addCampaignRequest['operations']['operand'][0]['biddingStrategy'],
-        SOAP_ENC_OBJECT, 'ManualCPC', API_NS, 'biddingStrategy', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($addCampaignRequest['operations']['operand'][0]['biddingStrategy'], 'ManualCPC','Campaign' , 'biddingStrategy');
 
 //call API
 $addCampaignResponse = $campaignService->invoke('mutate', $addCampaignRequest);
@@ -131,8 +130,7 @@ $setCampaignRequest = array(
 
 //xsi:type for biddingStrategy
 $setCampaignRequest['operations']['operand'][0]['biddingStrategy'] =
-    new SoapVar($setCampaignRequest['operations']['operand'][0]['biddingStrategy'],
-        SOAP_ENC_OBJECT, 'ManualCPC', API_NS, 'biddingStrategy', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($setCampaignRequest['operations']['operand'][0]['biddingStrategy'], 'ManualCPC','Campaign' , 'biddingStrategy');
 
 //call API
 $setCampaignResponse = $campaignService->invoke('mutate', $setCampaignRequest);
@@ -185,8 +183,8 @@ $addAdGroupRequest = array(
 
 //xsi:type for bid
 $addAdGroupRequest['operations']['operand'][0]['bid'] =
-    new SoapVar($addAdGroupRequest['operations']['operand'][0]['bid'],
-        SOAP_ENC_OBJECT, 'ManualCPCAdGroupBid', API_NS, 'bid', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($addAdGroupRequest['operations']['operand'][0]['bid'], 'ManualCPCAdGroupBid','AdGroup' , 'bid');
+
 
 //call API
 $addAdGroupResponse = $adGroupService->invoke('mutate', $addAdGroupRequest);
@@ -275,8 +273,7 @@ $setAdGroupRequest = array(
 
 //xsi:type for bid
 $setAdGroupRequest['operations']['operand'][0]['bid'] =
-    new SoapVar($setAdGroupRequest['operations']['operand'][0]['bid'],
-        SOAP_ENC_OBJECT, 'ManualCPCAdGroupBid', API_NS, 'bid', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($setAdGroupRequest['operations']['operand'][0]['bid'], 'ManualCPCAdGroupBid','AdGroup' , 'bid');
 
 //call API
 $setAdGroupResponse = $adGroupService->invoke('mutate', $setAdGroupRequest);
@@ -333,13 +330,11 @@ $addAdGroupAdRequest = array(
 
 //xsi:type for bid
 $addAdGroupAdRequest['operations']['operand'][0]['bid'] =
-    new SoapVar($addAdGroupAdRequest['operations']['operand'][0]['bid'],
-        SOAP_ENC_OBJECT, 'ManualCPCAdGroupAdBid', API_NS, 'bid', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($addAdGroupAdRequest['operations']['operand'][0]['bid'], 'ManualCPCAdGroupAdBid','AdGroupAd' , 'bid');
 
 //xsi:type for ad
 $addAdGroupAdRequest['operations']['operand'][0]['ad'] =
-    new SoapVar($addAdGroupAdRequest['operations']['operand'][0]['ad'],
-        SOAP_ENC_OBJECT, 'TextAd', API_NS, 'ad', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($addAdGroupAdRequest['operations']['operand'][0]['ad'], 'TextAd','AdGroupAd' , 'ad');
 
 //call API
 $addAdGroupAdResponse = $adGroupAdService->invoke('mutate', $addAdGroupAdRequest);
@@ -428,13 +423,11 @@ $setAdGroupAdRequest = array(
 
 //xsi:type for bid
 $setAdGroupAdRequest['operations']['operand'][0]['bid'] =
-    new SoapVar($setAdGroupAdRequest['operations']['operand'][0]['bid'],
-        SOAP_ENC_OBJECT, 'ManualCPCAdGroupAdBid', API_NS, 'bid', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($setAdGroupAdRequest['operations']['operand'][0]['bid'], 'ManualCPCAdGroupAdBid','AdGroupAd' , 'bid');
 
 //xsi:type for ad
 $setAdGroupAdRequest['operations']['operand'][0]['ad'] =
-    new SoapVar($setAdGroupAdRequest['operations']['operand'][0]['ad'],
-        SOAP_ENC_OBJECT, 'TextAd', API_NS, 'ad', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($setAdGroupAdRequest['operations']['operand'][0]['ad'], 'TextAd','AdGroupAd' , 'ad');
 
 //call API
 $setAdGroupAdResponse = $adGroupAdService->invoke('mutate', $setAdGroupAdRequest);
@@ -484,8 +477,7 @@ $addScheduleAdGroupTargetRequest = array(
 
 //xsi:type for targets of AdScheduleTarget
 $addScheduleAdGroupTargetRequest['operations']['operand'][0]['target'] =
-    new SoapVar($addScheduleAdGroupTargetRequest['operations']['operand'][0]['target'],
-        SOAP_ENC_OBJECT, 'AdScheduleTarget', API_NS, 'target', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($addScheduleAdGroupTargetRequest['operations']['operand'][0]['target'], 'AdScheduleTarget','AdGroupTarget' , 'target');
 //call API
 $addScheduleAdGroupTargetResponse = $adGroupTargetService->invoke('mutate', $addScheduleAdGroupTargetRequest);
 
@@ -527,8 +519,7 @@ $addAgeAdGroupTargetRequest = array(
 
 //xsi:type for targets of AgeTarget
 $addAgeAdGroupTargetRequest['operations']['operand'][0]['target'] =
-    new SoapVar($addAgeAdGroupTargetRequest['operations']['operand'][0]['target'],
-        SOAP_ENC_OBJECT, 'AgeTarget', API_NS, 'target', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($addAgeAdGroupTargetRequest['operations']['operand'][0]['target'], 'AgeTarget','AdGroupTarget' , 'target');
 
 //call API
 $addAgeAdGroupTargetResponse = $adGroupTargetService->invoke('mutate', $addAgeAdGroupTargetRequest);
@@ -581,12 +572,10 @@ $setAdGroupTargetRequest = array(
 
 //xsi:type for targets of AdScheduleTarget
 $setAdGroupTargetRequest['operations']['operand'][0]['target'] =
-    new SoapVar($setAdGroupTargetRequest['operations']['operand'][0]['target'],
-        SOAP_ENC_OBJECT, 'AdScheduleTarget', API_NS, 'target', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($setAdGroupTargetRequest['operations']['operand'][0]['target'], 'AdScheduleTarget','AdGroupTarget' , 'target');
 //xsi:type for targets of AgeTarget
 $setAdGroupTargetRequest['operations']['operand'][1]['target'] =
-    new SoapVar($setAdGroupTargetRequest['operations']['operand'][1]['target'],
-        SOAP_ENC_OBJECT, 'AgeTarget', API_NS, 'target', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($setAdGroupTargetRequest['operations']['operand'][1]['target'], 'AgeTarget','AdGroupTarget' , 'target');
 
 //call API
 $setAdGroupTargetResponse = $adGroupTargetService->invoke('mutate', $setAdGroupTargetRequest);
@@ -626,10 +615,9 @@ $replaceGenderAdGroupTargetRequest = array(
     ),
 );
 
-//xsi:type for targets of AgeTarget
+//xsi:type for targets of GenderTarget
 $replaceGenderAdGroupTargetRequest['operations']['operand'][0]['target'] =
-    new SoapVar($replaceGenderAdGroupTargetRequest['operations']['operand'][0]['target'],
-        SOAP_ENC_OBJECT, 'GenderTarget', API_NS, 'target', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($replaceGenderAdGroupTargetRequest['operations']['operand'][0]['target'], 'GenderTarget','AdGroupTarget' , 'target');
 
 //call API
 $replaceGenderAdGroupTargetResponse = $adGroupTargetService->invoke('replace', $replaceGenderAdGroupTargetRequest);
@@ -670,8 +658,7 @@ $replaceGenderAdGroupTargetRequest = array(
 
 //xsi:type for targets of AgeTarget
 $replaceGenderAdGroupTargetRequest['operations']['operand'][0]['target'] =
-    new SoapVar($replaceGenderAdGroupTargetRequest['operations']['operand'][0]['target'],
-        SOAP_ENC_OBJECT, 'GenderTarget', API_NS, 'target', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($replaceGenderAdGroupTargetRequest['operations']['operand'][0]['target'], 'GenderTarget','AdGroupTarget' , 'target');
 
 //call API
 $replaceGenderAdGroupTargetResponse = $adGroupTargetService->invoke('replace', $replaceGenderAdGroupTargetRequest);
@@ -780,12 +767,10 @@ $removeAdGroupTargetRequest = array(
 
 //xsi:type for targets of AdScheduleTarget
 $removeAdGroupTargetRequest['operations']['operand'][0]['target'] =
-    new SoapVar($removeAdGroupTargetRequest['operations']['operand'][0]['target'],
-        SOAP_ENC_OBJECT, 'AdScheduleTarget', API_NS, 'target', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($removeAdGroupTargetRequest['operations']['operand'][0]['target'], 'AdScheduleTarget','AdGroupTarget' , 'target');
 //xsi:type for targets of AgeTarget
 $removeAdGroupTargetRequest['operations']['operand'][1]['target'] =
-    new SoapVar($removeAdGroupTargetRequest['operations']['operand'][1]['target'],
-        SOAP_ENC_OBJECT, 'AgeTarget', API_NS, 'target', XMLSCHEMANS);
+    SoapUtils::encodingSoapVar($removeAdGroupTargetRequest['operations']['operand'][1]['target'], 'AgeTarget','AdGroupTarget' , 'target');
 
 //call API
 $removeAdGroupTargetResponse = $adGroupTargetService->invoke('mutate', $removeAdGroupTargetRequest);

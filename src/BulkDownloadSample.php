@@ -28,6 +28,7 @@ $getBulkDownloadParam = array(
         'entityTypes' => 'ALL',
         'downloadType' => 'CAMPAIGN',
         'output' => 'CSV',
+        'encoding' => 'UTF-8'
     ),
 );
 

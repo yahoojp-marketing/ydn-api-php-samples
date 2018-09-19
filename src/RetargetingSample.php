@@ -114,6 +114,29 @@ $addRuleRetargetingListRequest = array(
                     ),
                 ),
             ),
+            array(
+                'accountId' => SoapUtils::getAccountId(),
+                'targetListName' => 'SampleRule2_CreateOn_'.SoapUtils::getCurrentTimestamp(),
+                'description' => 'SampleRule2_CreateOn_'.SoapUtils::getCurrentTimestamp(),
+                'targetList' => array(
+                    'targetListType' => 'RULE',
+                    'retargetingTagId' => $retargetingTag->retargetingTagId,
+                    'isPreset' => 'TRUE',
+                    'isOpen' => 'TRUE',
+                    'reachPeriod' => '8',
+                    'rules' => array(
+                        array(
+                            'ruleConditions' => array(
+                                array(
+                                    'type' => 'EVENT_TYPE',
+                                    'compareOperator' => 'EQUAL',
+                                    'value' => 'app_install',
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         ),
     ),
 );
@@ -121,15 +144,21 @@ $addRuleRetargetingListRequest = array(
 //xsi:type for targetList of RuleTargetList
 $addRuleRetargetingListRequest['operations']['operand'][0]['targetList'] =
     SoapUtils::encodingSoapVar($addRuleRetargetingListRequest['operations']['operand'][0]['targetList'], 'RuleTargetList','RetargetingList' , 'targetList');
+$addRuleRetargetingListRequest['operations']['operand'][1]['targetList'] =
+    SoapUtils::encodingSoapVar($addRuleRetargetingListRequest['operations']['operand'][1]['targetList'], 'RuleTargetList','RetargetingList' , 'targetList');
 
 //call API
 $addRuleRetargetingListResponse = $retargetingListService->invoke('mutate', $addRuleRetargetingListRequest);
 
 //response
-if(isset($addRuleRetargetingListResponse->rval->values->retargetingList)){
-    $ruleRetargetingList = $addRuleRetargetingListResponse->rval->values->retargetingList;
-}else if(isset($addRuleRetargetingListResponse->rval->values[0]->retargetingList)){
+if(isset($addRuleRetargetingListResponse->rval->values[0]->retargetingList)){
     $ruleRetargetingList = $addRuleRetargetingListResponse->rval->values[0]->retargetingList;
+}else{
+    echo 'Fail to add RetargetingList of Rule.';
+    exit();
+}
+if(isset($addRuleRetargetingListResponse->rval->values[1]->retargetingList)){
+    $ruleRetargetingList2 = $addRuleRetargetingListResponse->rval->values[1]->retargetingList;
 }else{
     echo 'Fail to add RetargetingList of Rule.';
     exit();
@@ -156,6 +185,9 @@ $addCombinationRetargetingListRequest = array(
                         'targetLists' => array(
                             array(
                                 'targetListId' => $ruleRetargetingList->targetListId,
+                            ),
+                            array(
+                                'targetListId' => $ruleRetargetingList2->targetListId,
                             ),
                         ),
                     ),
@@ -225,6 +257,7 @@ $addSimilarityRetargetingListRequest = array(
                 'targetList' => array(
                     'targetListType' => 'SIMILARITY',
                     'targetListId' => $defaultRetargetingList->targetListId,
+                    'targetListSize' => 'RATE_6'
                 ),
             ),
         ),
@@ -317,6 +350,27 @@ $setRuleRetargetingListRequest = array(
                                 ),
                             ),
                         ),
+
+                    ),
+                ),
+            ),
+            array(
+                'accountId' => SoapUtils::getAccountId(),
+                'targetListId' => $ruleRetargetingList2->targetListId,
+                'targetListName' => 'SampleRule2_UpdateOn_'.SoapUtils::getCurrentTimestamp(),
+                'description' => 'SampleRule2_UpdateOn_'.SoapUtils::getCurrentTimestamp(),
+                'targetList' => array(
+                    'targetListType' => 'RULE',
+                    'rules' => array(
+                        array(
+                            'ruleConditions' => array(
+                                array(
+                                    'type' => 'EVENT_TYPE',
+                                    'compareOperator' => 'EQUAL',
+                                    'value' => 'purchase',
+                                ),
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -327,20 +381,25 @@ $setRuleRetargetingListRequest = array(
 //xsi:type for targetList of RuleTargetList
 $setRuleRetargetingListRequest['operations']['operand'][0]['targetList'] =
     SoapUtils::encodingSoapVar($setRuleRetargetingListRequest['operations']['operand'][0]['targetList'], 'RuleTargetList','RetargetingList' , 'targetList');
-
+$setRuleRetargetingListRequest['operations']['operand'][1]['targetList'] =
+    SoapUtils::encodingSoapVar($setRuleRetargetingListRequest['operations']['operand'][1]['targetList'], 'RuleTargetList','RetargetingList' , 'targetList');
 //call API
 $setRuleRetargetingListResponse = $retargetingListService->invoke('mutate', $setRuleRetargetingListRequest);
 
 //response
-if(isset($setRuleRetargetingListResponse->rval->values->retargetingList)){
-    $ruleRetargetingList = $setRuleRetargetingListResponse->rval->values->retargetingList;
-}else if(isset($setRuleRetargetingListResponse->rval->values[0]->retargetingList)){
+if(isset($setRuleRetargetingListResponse->rval->values[0]->retargetingList)){
     $ruleRetargetingList = $setRuleRetargetingListResponse->rval->values[0]->retargetingList;
 }else{
     echo 'Fail to set RetargetingList of Rule.';
     exit();
 }
 
+if(isset($setRuleRetargetingListResponse->rval->values[1]->retargetingList)){
+    $ruleRetargetingList2 = $setRuleRetargetingListResponse->rval->values[1]->retargetingList;
+}else{
+    echo 'Fail to set RetargetingList of Rule.';
+    exit();
+}
 //-----------------------------------------------
 // RetargetingListService::mutate(SET) - Combination
 //-----------------------------------------------
@@ -363,6 +422,9 @@ $setCombinationRetargetingListRequest = array(
                         'targetLists' => array(
                             array(
                                 'targetListId' => $ruleRetargetingList->targetListId,
+                            ),
+                            array(
+                                'targetListId' => $ruleRetargetingList2->targetListId,
                             ),
                         ),
                     ),
@@ -406,6 +468,7 @@ $setSimilarityRetargetingListRequest = array(
                 'description' => 'SampleSimilarity_UpdateOn_'.SoapUtils::getCurrentTimestamp(),
                 'targetList' => array(
                     'targetListType' => 'SIMILARITY',
+                    'targetListSize' => 'RATE_3'
                 ),
             ),
         ),
@@ -441,6 +504,10 @@ $removeRetargetingListRequest = array(
             array(
                 'accountId' => SoapUtils::getAccountId(),
                 'targetListId' => $ruleRetargetingList->targetListId,
+            ),
+            array(
+                'accountId' => SoapUtils::getAccountId(),
+                'targetListId' => $ruleRetargetingList2->targetListId,
             ),
             array(
                 'accountId' => SoapUtils::getAccountId(),

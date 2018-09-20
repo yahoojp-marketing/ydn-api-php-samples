@@ -10,12 +10,20 @@ Additionally, please note before using it that Yahoo Japan Corporation may chang
 --------------------------------
 <<Version>>
 --------------------------------
-Ver.201806
+Ver.201809
 
 [Update history]
 -----------
+2018/09/19:
+- V201809 Correspond to site Retargeting enhancement.
+- V201809 Correspond to period of performance data available changed.
+- V201809 Correspond to range of Age targeting changed.
+
 2018/06/20:
-- V201806 Add
+- V201806 Correspond to change on releasing and numbering new versions.
+- V201806 Correspond to displaying cost related indicators with numbers under decimal places.
+- V201806 Correspond to adding reporting fields related to video views.
+- V201806 Correspond to conversion feature enhancement.
 
 2017/10/25
  - V6.1 Correspond to Mobile App campaign.　

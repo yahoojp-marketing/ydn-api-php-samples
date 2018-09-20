@@ -37,6 +37,33 @@ if(isset($getStatsResponse->rval->values)){
    exit();
 }
 
+//-----------------------------------------------
+// StatsService::get use CustomDate
+//-----------------------------------------------
+//request
+$getCustomDateStatsRequest = array(
+    'selector' => array(
+        'accountId' => $accountId,
+        'statsPeriod' => 'CUSTOM_DATE',
+        'statsType' => 'AD',
+        'statsPeriodCustomDate' => array(
+            'statsStartDate' => date("Ymd"),
+            'statsEndDate' => date("Ymd", strtotime("1 month"))
+        )
+    )
+);
+
+//call API
+$getCustomDateStatsResponse = $statsService->invoke('get', $getCustomDateStatsRequest);
+
+// response
+if(isset($getCustomDateStatsResponse->rval->values)){
+    $stats = convertArray($getCustomDateStatsResponse->rval->values);
+}else{
+    echo 'Fail to get Stats.';
+    exit();
+}
+
 //-------------------------------------------------------------------
 // utility function
 //

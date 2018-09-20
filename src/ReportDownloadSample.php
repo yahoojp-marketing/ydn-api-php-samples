@@ -39,8 +39,7 @@ $addReportDefinitionParam = array(
             		'ACCOUNT_ID','AD_ID'),
             'format' => 'CSV',
             'encode' => 'SJIS',
-            'lang' => 'EN',
-            'addTemplate' => 'YES',
+            'lang' => 'EN'
         ),
     ),
 );

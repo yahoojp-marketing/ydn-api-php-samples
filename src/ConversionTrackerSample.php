@@ -56,14 +56,14 @@ if(isMutateSuccess($addResponse)){
 //-----------------------------------------------
 //request
 $getConversionTrackerRequest = array(
-     'selector' => array(
-            'accountId'            => $accountId,
-            'conversionTrackerIds' => array($conversionTrackerId),
-            'paging'               => array(
-                        'startIndex'    => 1,
-                        'numberResults' => 20
-             )
-      )
+    'selector' => array(
+        'accountId'            => $accountId,
+        'conversionTrackerIds' => array($conversionTrackerId),
+        'paging'               => array(
+            'startIndex'    => 1,
+            'numberResults' => 20
+        )
+    )
 );
 
 //call API
@@ -71,9 +71,39 @@ $getConversionTrackerResponse = $conversionTrackerService->invoke('get', $getCon
 
 //response
 if(!isset($getConversionTrackerResponse->rval->values)){
-   echo 'Fail to get ConversionTracker.';
-   exit();
+    echo 'Fail to get ConversionTracker.';
+    exit();
 }
+
+//-----------------------------------------------
+// ConversionTrackerService::get use CustomDate
+//-----------------------------------------------
+//request
+$getCustomDateConversionTrackerRequest = array(
+    'selector' => array(
+        'accountId'             => $accountId,
+        'conversionTrackerIds'  => array($conversionTrackerId),
+        'statsPeriod'           => 'CUSTOM_DATE',
+        'statsPeriodCustomDate' => array(
+            'statsStartDate'    => date("Ymd"),
+            'statsEndDate'      => date("Ymd", strtotime("1 month"))
+        ),
+        'paging'               => array(
+            'startIndex'    => 1,
+            'numberResults' => 20
+        )
+    )
+);
+
+//call API
+$getCustomDateConversionTrackerResponse = $conversionTrackerService->invoke('get', $getCustomDateConversionTrackerRequest);
+
+//response
+if(!isset($getCustomDateConversionTrackerResponse->rval->values)){
+    echo 'Fail to get ConversionTracker.';
+    exit();
+}
+
 
 //-----------------------------------------------
 // ConversionTrackerService::mutate(SET)

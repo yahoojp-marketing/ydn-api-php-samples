@@ -2,8 +2,8 @@
 //-----------------------------------------------------------------
 // common defines
 //-----------------------------------------------------------------
-define('API_VERSION', 'V201809');
-define('API_NS',      'http://im.yahooapis.jp/V201809');
+define('API_VERSION', 'V201812');
+define('API_NS',      'http://im.yahooapis.jp/V201812');
 define('XMLSCHEMANS', 'http://www.w3.org/2001/XMLSchema-instance');
 
 //-----------------------------------------------------------------

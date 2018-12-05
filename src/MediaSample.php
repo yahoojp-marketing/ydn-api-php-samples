@@ -145,7 +145,7 @@ $addCampaignRequest = array(
                 'biddingStrategy' => array(
                     'type' => 'MANUAL_CPC',
                 ),
-                'adProductType' => 'INTEREST_MATCH',
+                'adProductType' => 'TARGET_MATCH',
             ),
         ),
     ),
@@ -394,12 +394,12 @@ $addAdGroupAdRequest = array(
                     'maxCpc' => '50',
                 ),
                 'ad' => array(
-                    'type' => 'TEXT_LONG_AD1',
+                    'type' => 'RESPONSIVE_AD',
                     'url' => 'http://www.yahoo.co.jp/',
                     'displayUrl' => 'www.yahoo.co.jp',
                     'headline' => 'sample headline',
                     'description' => 'sample ad desc',
-                    'description2' => 'sample ad desc2',
+                    'principal' => 'test principal'
                 ),
             ),
         ),
@@ -412,7 +412,7 @@ $addAdGroupAdRequest['operations']['operand'][0]['bid'] =
 
 //xsi:type for ad
 $addAdGroupAdRequest['operations']['operand'][0]['ad'] =
-    SoapUtils::encodingSoapVar($addAdGroupAdRequest['operations']['operand'][0]['ad'], 'TextAd','AdGroupAd' , 'ad');
+    SoapUtils::encodingSoapVar($addAdGroupAdRequest['operations']['operand'][0]['ad'], 'ResponsiveAd','AdGroupAd' , 'ad');
 
 //call API
 $addAdGroupAdResponse = $adGroupAdService->invoke('mutate', $addAdGroupAdRequest);
@@ -486,12 +486,12 @@ $setAdGroupAdRequest = array(
                     'maxCpc' => '60',
                 ),
                 'ad' => array(
-                    'type' => 'TEXT_LONG_AD1',
+                    'type' => 'RESPONSIVE_AD',
                     'url' => 'http://www.yahoo.co.jp/',
                     'displayUrl' => 'www.yahoo.co.jp',
                     'headline' => 'sample headline',
                     'description' => 'sample ad desc',
-                    'description2' => 'sample ad desc2',
+                    'principal' => 'test principal'
                 ),
             ),
         ),
@@ -504,7 +504,7 @@ $setAdGroupAdRequest['operations']['operand'][0]['bid'] =
 
 //xsi:type for ad
 $setAdGroupAdRequest['operations']['operand'][0]['ad'] =
-    SoapUtils::encodingSoapVar($setAdGroupAdRequest['operations']['operand'][0]['ad'], 'TextAd','AdGroupAd' , 'ad');
+    SoapUtils::encodingSoapVar($setAdGroupAdRequest['operations']['operand'][0]['ad'], 'ResponsiveAd','AdGroupAd' , 'ad');
 
 //call API
 $setAdGroupAdResponse = $adGroupAdService->invoke('mutate', $setAdGroupAdRequest);

@@ -32,6 +32,8 @@ $addRequest = array(
            	 'conversionTrackerType'       => 'WEB_CONVERSION',
              'countingType'                => 'MANY_PER_CLICK',
              'excludeFromBidding'          => 'FALSE',
+             'measurementPeriod'           => 30,
+             'measurementPeriodView'       => 10,
             )
          )
     )
@@ -124,10 +126,14 @@ $setRequest = array(
             'conversionTrackerType'        => 'WEB_CONVERSION',
             'countingType'                 => 'MANY_PER_CLICK',
             'excludeFromBidding'           => 'FALSE',
+            'measurementPeriod'            => 31,
+            'measurementPeriodView'        => 15,
             )
         )
     )
 );
+$setRequest['operations']['operand'][0] =
+    SoapUtils::encodingSoapVar($setRequest['operations']['operand'][0], 'WebConversion','ConversionTracker' , 'operand');
 
 //call API
 $setResponse = $conversionTrackerService->invoke('mutate', $setRequest);

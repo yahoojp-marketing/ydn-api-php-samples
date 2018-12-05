@@ -21,11 +21,15 @@ $searchKeywordIdeaService = SoapUtils::getService('SearchKeywordIdeaService');
 //-----------------------------------------------
 //request
 $getSearchKeywordIdeaRequest = array(
-       'selector' => array(
-             'keywords' => array('gizmo','vlookup'),
-       		 'searchKeywordRecency' => 'WITHIN_30DAYS',
-       		 'searchKeywordFrequency' => 'ONCE_OR_MORE'
-        )
+    'selector' => array(
+        'keywords' => array('gizmo', 'vlookup'),
+        'searchKeywordRecency' => 'WITHIN_30DAYS',
+        'searchKeywordFrequency' => 'ONCE_OR_MORE',
+        'sortField' => 'KEYWORD_ID',
+        'sortType' => 'ASC',
+        'matchType' => 'BROAD',
+
+    )
 );
 
 //call API

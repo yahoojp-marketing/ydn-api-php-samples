@@ -117,8 +117,4 @@ if($uploadCompleted === false){
 echo "\nBulkService::downloadBulkUploadFile\n";
 SoapUtils::download($uploadBulkJob->downloadBulkUploadFileUrl, 'SampleBulkUploadFile.csv');
 
-//download result of upload.
-echo "\nBulkService::downloadBulkUploadErrorFile\n";
-SoapUtils::download($uploadBulkJob->downloadBulkUploadErrorFileUrl, 'SampleBulkUploadErrorFile.csv');
-
 

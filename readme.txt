@@ -13,6 +13,9 @@ Ver.201812
 
 ■変更履歴
 -----------
+2019/02/13:
+- 動的ディスプレイ広告に対応しました。
+
 2018/12/05:
 - V201812 動画視聴コンバージョンの測定に対応しました。
 - V201812 サーチターゲティングの機能変更に対応しました。
@@ -125,6 +128,7 @@ PHPのSoapClientライブラリを使用してAPIを呼び出す形になって�
 - BulkUploadSample.php        ：BulkServiceによるアップロード処理のサンプルです。
 - ConversionTrackerSample.php ：ConversionTrackerServiceによるコンバージョン情報の登録、更新処理のサンプルです。
 - DictionarySample.php        ：DictionaryServiceによる地域データ、審査否認理由、ターゲット設定用マスタデータ、OSバージョン、入稿用画像形式参照処理のサンプルです。
+- FeedDataSample.php          ：FeedHolderServiceによるFeedHolderの登録、参照、更新、削除処理と、FeedDataServiceのアップロード処理のサンプルです。
 - MediaSample.php             ：AdSample.phpにMediaServiceを加えた画像広告の入稿処理のサンプルです。
 - ReportDownloadSample.php    ：ReportDefinitionService, ReportServiceを使用したレポートダウンロード処理のサンプルです。
 - RetargetingSample.php       ：RetargetingTagService, RetargetingListServiceを使用したリターゲティング処理のサンプルです。
@@ -139,10 +143,10 @@ PHPのSoapClientライブラリを使用してAPIを呼び出す形になって�
 - SoapUtils.class.php      ：LocationServiceを使用したリクエスト先の取得処理のサンプル及びその他共通処理です。
 
 ■downloadディレクトリ
-ReportDownloadSample、BulkDownloadSample、BulkUploadSample、AuditLogDownloadSampleを実行した際に、ダウンロードしたデータがファイルとして格納されるディレクトリです。
+FeedDataSample、ReportDownloadSample、BulkDownloadSample、BulkUploadSample、AuditLogDownloadSampleを実行した際に、ダウンロードしたデータがファイルとして格納されるディレクトリです。
 
 ■uploadディレクトリ
-MediaSample、BulkUploadSample、FeedUploadSample, VideoSampleでアップロードするファイルをあらかじめ格納しておくディレクトリです。
+FeedDataSample、MediaSample、BulkUploadSample、FeedUploadSample, VideoSampleでアップロードするファイルをあらかじめ格納しておくディレクトリです。
 
 
 --------------------------------
@@ -183,6 +187,7 @@ $ php src/BulkDownloadSample.php
 $ php src/BulkUploadSample.php
 $ php src/ConversionTrackerSample.php
 $ php src/DictionarySample.php
+$ php src/FeedDataSample.php
 $ php src/MasterDataSample.php
 $ php src/MediaSample.php
 $ php src/ReportDownloadSample.php
@@ -198,6 +203,7 @@ $ php src/VideoService.php
 データをアップロードする処理を実行する場合には、あらかじめuploadディレクトリ配下にアップロードしたいファイルを格納しておく必要があります。
 サンプルプログラムごとにファイル名は固定です。
 
-・MediaSample.phpの場合　　　 ：SampleMedia.jpg
+・MediaSample.phpの場合      ：SampleMedia.jpg
 ・BulkUploadSample.phpの場合 ：SampleBulkUpload.csv
+・FeedDataSample.phpの場合   ：SampleFeedUpload.zip
 ・VideoSample.phpの場合      ：SampleVideoUpload.mp4

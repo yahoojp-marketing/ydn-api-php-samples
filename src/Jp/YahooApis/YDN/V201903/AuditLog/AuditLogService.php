@@ -57,7 +57,7 @@ class AuditLogService extends \Jp\YahooApis\YDN\AdApiSample\Util\Service
      */
     public function getDownload(getDownload $parameters)
     {
-      return $this->__soapCall('getDownload', array($parameters));
+      return parent::invoke('getDownload', $parameters);
     }
 
     /**
@@ -66,7 +66,7 @@ class AuditLogService extends \Jp\YahooApis\YDN\AdApiSample\Util\Service
      */
     public function getDownloadStatus(getDownloadStatus $parameters)
     {
-      return $this->__soapCall('getDownloadStatus', array($parameters));
+      return parent::invoke('getDownloadStatus', $parameters);
     }
 
 }

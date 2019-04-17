@@ -102,7 +102,7 @@ class DictionaryService extends \Jp\YahooApis\YDN\AdApiSample\Util\Service
      */
     public function getInterestCategory(getInterestCategory $parameters)
     {
-      return $this->__soapCall('getInterestCategory', array($parameters));
+      return parent::invoke('getInterestCategory', $parameters);
     }
 
     /**
@@ -111,7 +111,7 @@ class DictionaryService extends \Jp\YahooApis\YDN\AdApiSample\Util\Service
      */
     public function getSiteCategory(getSiteCategory $parameters)
     {
-      return $this->__soapCall('getSiteCategory', array($parameters));
+      return parent::invoke('getSiteCategory', $parameters);
     }
 
     /**
@@ -120,7 +120,7 @@ class DictionaryService extends \Jp\YahooApis\YDN\AdApiSample\Util\Service
      */
     public function getColorSet(getColorSet $parameters)
     {
-      return $this->__soapCall('getColorSet', array($parameters));
+      return parent::invoke('getColorSet', $parameters);
     }
 
     /**
@@ -129,7 +129,7 @@ class DictionaryService extends \Jp\YahooApis\YDN\AdApiSample\Util\Service
      */
     public function getOsVersion(getOsVersion $parameters)
     {
-      return $this->__soapCall('getOsVersion', array($parameters));
+      return parent::invoke('getOsVersion', $parameters);
     }
 
     /**
@@ -138,7 +138,7 @@ class DictionaryService extends \Jp\YahooApis\YDN\AdApiSample\Util\Service
      */
     public function getMediaAdFormat(getMediaAdFormat $parameters)
     {
-      return $this->__soapCall('getMediaAdFormat', array($parameters));
+      return parent::invoke('getMediaAdFormat', $parameters);
     }
 
 }

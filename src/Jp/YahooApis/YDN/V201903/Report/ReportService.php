@@ -72,7 +72,7 @@ class ReportService extends \Jp\YahooApis\YDN\AdApiSample\Util\Service
      */
     public function getClosedDate(getClosedDate $parameters)
     {
-      return $this->__soapCall('getClosedDate', array($parameters));
+      return parent::invoke('getClosedDate', $parameters);
     }
 
     /**

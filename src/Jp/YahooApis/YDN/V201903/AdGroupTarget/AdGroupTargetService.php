@@ -92,7 +92,7 @@ class AdGroupTargetService extends \Jp\YahooApis\YDN\AdApiSample\Util\Service
      */
     public function replace(replace $parameters)
     {
-      return $this->__soapCall('replace', array($parameters));
+      return parent::invoke('replace', $parameters);
     }
 
 }

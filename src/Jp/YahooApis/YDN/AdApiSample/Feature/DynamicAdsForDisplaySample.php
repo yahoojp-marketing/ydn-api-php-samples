@@ -14,17 +14,21 @@ use Jp\YahooApis\YDN\AdApiSample\Basic\{AdGroup\AdGroupServiceSample,
     Campaign\CampaignServiceSample,
     FeedData\FeedDataServiceSample,
     FeedHolder\FeedHolderServiceSample,
+    FeedSet\FeedSetServiceSample,
     Media\MediaServiceSample};
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\{AdGroup\Operator as AdGroupOperator,
+use Jp\YahooApis\YDN\V201903\{
     AdGroupAd\Operator as AdGroupAdOperator,
     Campaign\CampaignType,
     Campaign\Operator as CampaignOperator,
     FeedHolder\Operator as FeedHolderOperator,
     Media\LogoFlg,
     Media\Operator as MediaOperator};
+use Jp\YahooApis\YDN\V201903\{
+    AdGroup\Operator as AdGroupOperator,
+    FeedSet\Operator as FeedSetOperator};
 
 /**
  * example DynamicAdsForDisplay operation and Utility method collection.
@@ -83,6 +87,15 @@ class DynamicAdsForDisplaySample
             FeedDataServiceSample::checkUploadStatus([$feedHolderId], [$itemListUploadId]);
 
             // =================================================================
+            // FeedSetService
+            // =================================================================
+            $addRequestFeedSet = FeedSetServiceSample::buildExampleMutateRequest(
+                FeedSetOperator::ADD, $accountId, [FeedSetServiceSample::createExampleFeedSetRequest($feedHolderId)]
+            );
+            $addResponseFeedSet = FeedSetServiceSample::mutate($addRequestFeedSet);
+            $feedSetId = $addResponseFeedSet->getRval()->getValues()[0]->getFeedSet()->getFeedSetId();
+
+            // =================================================================
             // MediaService
             // =================================================================
             $mediaIds = [];
@@ -133,6 +146,7 @@ class DynamicAdsForDisplaySample
             $addRequestAdGroup = AdGroupServiceSample::buildExampleMutateRequest(
                 AdGroupOperator::ADD, $accountId, [AdGroupServiceSample::createExampleStandardAdGroup($campaignId)]
             );
+            $addRequestAdGroup->getOperations()->getOperand()[0]->setFeedSetId($feedSetId);
             $addResponseAdGroup = AdGroupServiceSample::mutate($addRequestAdGroup);
             $valuesHolder->setAdGroupValuesList($addResponseAdGroup->getRval()->getValues());
             $adGroupId = $valuesRepositoryFacade->getAdGroupValuesRepository()->findAdGroupId($campaignId);
@@ -156,7 +170,7 @@ class DynamicAdsForDisplaySample
             // Cleanup
             // =================================================================
             MediaServiceSample::cleanup($valuesHolder);
-            AdGroupAdServiceSample::cleanup($valuesHolder);
+            CampaignServiceSample::cleanup($valuesHolder);
             FeedHolderServiceSample::cleanup($valuesHolder);
         }
     }

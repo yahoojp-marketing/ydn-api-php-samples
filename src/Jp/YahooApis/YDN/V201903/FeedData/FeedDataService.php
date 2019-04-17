@@ -65,7 +65,7 @@ class FeedDataService extends \Jp\YahooApis\YDN\AdApiSample\Util\Service
      */
     public function getUploadStatus(getUploadStatus $parameters)
     {
-      return $this->__soapCall('getUploadStatus', array($parameters));
+      return parent::invoke('getUploadStatus', $parameters);
     }
 
 }

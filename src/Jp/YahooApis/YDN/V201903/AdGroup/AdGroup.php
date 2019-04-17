@@ -81,6 +81,16 @@ class AdGroup
     protected $labels = null;
 
     /**
+     * @var int $feedSetId
+     */
+    protected $feedSetId = null;
+
+    /**
+     * @var boolean $isRemoveFeedSetId
+     */
+    protected $isRemoveFeedSetId = null;
+
+    /**
      * @param int $accountId
      * @param int $campaignId
      */
@@ -357,6 +367,42 @@ class AdGroup
     public function setLabels(array $labels = null)
     {
       $this->labels = $labels;
+      return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFeedSetId()
+    {
+      return $this->feedSetId;
+    }
+
+    /**
+     * @param int $feedSetId
+     * @return \Jp\YahooApis\YDN\V201903\AdGroup\AdGroup
+     */
+    public function setFeedSetId($feedSetId)
+    {
+      $this->feedSetId = $feedSetId;
+      return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIsRemoveFeedSetId()
+    {
+      return $this->isRemoveFeedSetId;
+    }
+
+    /**
+     * @param boolean $isRemoveFeedSetId
+     * @return \Jp\YahooApis\YDN\V201903\AdGroup\AdGroup
+     */
+    public function setIsRemoveFeedSetId($isRemoveFeedSetId)
+    {
+      $this->isRemoveFeedSetId = $isRemoveFeedSetId;
       return $this;
     }
 

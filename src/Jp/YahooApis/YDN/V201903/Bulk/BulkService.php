@@ -66,7 +66,7 @@ class BulkService extends \Jp\YahooApis\YDN\AdApiSample\Util\Service
      */
     public function getBulkDownload(getBulkDownload $parameters)
     {
-      return $this->__soapCall('getBulkDownload', array($parameters));
+      return parent::invoke('getBulkDownload', $parameters);
     }
 
     /**
@@ -75,7 +75,7 @@ class BulkService extends \Jp\YahooApis\YDN\AdApiSample\Util\Service
      */
     public function getBulkDownloadStatus(getBulkDownloadStatus $parameters)
     {
-      return $this->__soapCall('getBulkDownloadStatus', array($parameters));
+      return parent::invoke('getBulkDownloadStatus', $parameters);
     }
 
     /**
@@ -93,7 +93,7 @@ class BulkService extends \Jp\YahooApis\YDN\AdApiSample\Util\Service
      */
     public function getBulkUploadStatus(getBulkUploadStatus $parameters)
     {
-      return $this->__soapCall('getBulkUploadStatus', array($parameters));
+      return parent::invoke('getBulkUploadStatus', $parameters);
     }
 
 }

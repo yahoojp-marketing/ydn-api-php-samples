@@ -14,6 +14,9 @@ class EntityType
     const SEARCH_KW_LIST = 'SEARCH_KW_LIST';
     const PLACEMENT_URL_LIST = 'PLACEMENT_URL_LIST';
     const VIDEO = 'VIDEO';
+    const CAMPAIGN_LABEL = 'CAMPAIGN_LABEL';
+    const AD_GROUP_LABEL = 'AD_GROUP_LABEL';
+    const AD_LABEL = 'AD_LABEL';
     const ALL = 'ALL';
 
 

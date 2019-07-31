@@ -6,7 +6,7 @@
 namespace Jp\YahooApis\YDN\AdApiSample\Util;
 
 use Exception;
-use Jp\YahooApis\YDN\V201903\Location\{get, LocationService};
+use Jp\YahooApis\YDN\V201907\Location\{get, LocationService};
 use ReflectionClass;
 use ReflectionException;
 
@@ -15,11 +15,6 @@ use ReflectionException;
  */
 class SoapUtils
 {
-
-    /**
-     * @var string $locationCache cache of location for accountId.
-     */
-    private static $locationCache;
 
     /**
      * get Account ID from api_config.ini file.
@@ -83,7 +78,6 @@ class SoapUtils
             }
         }
 
-        self::setConfiguration('LOCATION_CACHE_FILE', __DIR__ . '/../../../../../../conf/location_cache.txt');
     }
 
     /**
@@ -94,17 +88,13 @@ class SoapUtils
      */
     public static function getService(string $service = null): Service
     {
-        if ($service == null || preg_match('/\\\LocationService$/', $service)) {
-            return new LocationService(self::getWsdlURL('LocationService'), 'https://' . LOCATION . '/services/' . API_VERSION . '/LocationService');
-        } else {
-            try {
-                $refl = new ReflectionClass($service);
-                $tmp = explode('\\', $service);
-                $serviceName = end($tmp);
-                return $refl->newInstanceArgs([self::getWsdlURL($serviceName), self::getServiceEndPointURL($serviceName)]);
-            } catch (ReflectionException $e) {
-                print $e->getMessage();
-            }
+        try {
+            $refl = new ReflectionClass($service);
+            $tmp = explode('\\', $service);
+            $serviceName = end($tmp);
+            return $refl->newInstanceArgs([self::getWsdlURL($serviceName), self::getServiceEndPointURL($serviceName)]);
+        } catch (ReflectionException $e) {
+            print $e->getMessage();
         }
     }
 
@@ -128,49 +118,7 @@ class SoapUtils
      */
     public static function getServiceEndPointURL(string $serviceName): string
     {
-        return 'https://' . self::getLocation(self::getAccountId()) . '/services/' . API_VERSION . '/' . $serviceName;
-    }
-
-    /**
-     * get location for accountId.
-     *
-     * @return string colocation server name for accountId.
-     * @throws ReflectionException
-     */
-    private static function getLocation(): string
-    {
-        if (isset(self::$locationCache[self::getAccountId()])) {
-            return self::$locationCache[self::getAccountId()];
-        } else {
-            // read location cache file
-            self::$locationCache = array();
-            if (is_readable(LOCATION_CACHE_FILE)) {
-                $cache = file_get_contents(LOCATION_CACHE_FILE);
-                self::$locationCache = unserialize($cache);
-            }
-
-            if (isset(self::$locationCache[self::getAccountId()])) {
-                // return cached location
-                $cachedLocation = self::$locationCache[self::getAccountId()];
-            } else {
-                // get LocationService
-                $service = self::getService(LocationService::class);
-                // call API
-                $response = $service->get(new get(self::getAccountId()));
-                // response
-                if (!is_null($response->getRval()->getValue())) {
-                    // save cache
-                    $cachedLocation = $response->getRval()->getValue();
-                    self::$locationCache[self::getAccountId()] = $cachedLocation;
-                    $cache = serialize(self::$locationCache);
-                    file_put_contents(LOCATION_CACHE_FILE, $cache);
-                } else {
-                    echo 'Error : Fail to get Location.';
-                    exit();
-                }
-            }
-            return $cachedLocation;
-        }
+        return 'https://' . LOCATION . '/services/' . API_VERSION . '/' . $serviceName;
     }
 
     /**

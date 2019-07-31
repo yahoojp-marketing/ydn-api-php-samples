@@ -6,8 +6,8 @@
 namespace Jp\YahooApis\YDN\AdApiSample\Repository;
 
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\Campaign\Campaign;
-use Jp\YahooApis\YDN\V201903\Campaign\CampaignType;
+use Jp\YahooApis\YDN\V201907\Campaign\Campaign;
+use Jp\YahooApis\YDN\V201907\Campaign\CampaignType;
 
 /**
  * Utility method collection for PHP Sample Program.

@@ -6,7 +6,7 @@
 namespace Jp\YahooApis\YDN\AdApiSample\Repository;
 
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\Media\MediaRecord;
+use Jp\YahooApis\YDN\V201907\Media\MediaRecord;
 
 /**
  * Utility method collection for PHP Sample Program.

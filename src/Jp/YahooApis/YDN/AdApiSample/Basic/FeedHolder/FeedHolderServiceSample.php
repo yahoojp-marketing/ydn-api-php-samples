@@ -11,8 +11,8 @@ use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\FeedHolder\{FeedHolderOperation, FeedHolderRecord, FeedHolderSelector, FeedHolderService, get, getResponse, mutate, mutateResponse, Operator};
-use Jp\YahooApis\YDN\V201903\Paging;
+use Jp\YahooApis\YDN\V201907\FeedHolder\{FeedHolderOperation, FeedHolderRecord, FeedHolderSelector, FeedHolderService, get, getResponse, mutate, mutateResponse, Operator};
+use Jp\YahooApis\YDN\V201907\Paging;
 
 /**
  * example FeedHolderService operation and Utility method collection.

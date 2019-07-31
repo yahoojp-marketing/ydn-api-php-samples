@@ -1,12 +1,14 @@
 --------------------------------
 【バージョン】
 --------------------------------
-Version 201903
+Version 201907
 
 ■変更履歴
 -----------
 2019/03/11:
 - Version 201903に対応しました。
+2019/08/01:
+- Version 201907に対応しました。
 
 --------------------------------
 【概要】
@@ -21,7 +23,7 @@ PHPのSoapClientライブラリを使用してAPIを呼び出します。
 conf/
   - api_config.ini      : 各種IDを記述する設定ファイルです。
 src/Jp/YahooApis/YDN/
-  - V201903             : 対象のAPIバージョンのPHP用EntityサンプルClassです。
+  - V201907             : 対象のAPIバージョンのPHP用EntityサンプルClassです。
   - AdApiSample/
     - Basic/            : Yahoo!プロモーション広告API（YDN）の各種Serviceサンプル集です。
     - Feature/          : Yahoo!プロモーション広告API（YDN）を利用した広告入稿、ターゲティングなどのサンプル集です。

@@ -11,16 +11,14 @@ use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\Paging;
-use Jp\YahooApis\YDN\V201903\ReportDefinition\{get,
+use Jp\YahooApis\YDN\V201907\Paging;
+use Jp\YahooApis\YDN\V201907\ReportDefinition\{get,
     getReportFields,
     getReportFieldsResponse,
     getResponse,
     mutate,
     mutateResponse,
     Operator,
-    ReportAddTemplate,
-    ReportCategory,
     ReportDateRangeType,
     ReportDefinition,
     ReportDefinitionOperation,
@@ -29,7 +27,13 @@ use Jp\YahooApis\YDN\V201903\ReportDefinition\{get,
     ReportDownloadEncode,
     ReportDownloadFormat,
     ReportFrequencyRange,
-    ReportLang};
+    ReportLang,
+    ReportType,
+    getClosedDate,
+    ReportClosedDateSelector,
+    getClosedDateResponse,
+    ReportJobStatus
+};
 
 /**
  * example ReportDefinitionService operation and Utility method collection.
@@ -130,6 +134,41 @@ class ReportDefinitionServiceSample
     }
 
     /**
+     * example getClosedDate Reports.
+     *
+     * @param getClosedDate $request
+     * @return getClosedDateResponse
+     * @throws Exception
+     */
+    public static function getClosedDate(getClosedDate $request): getClosedDateResponse
+    {
+        self::init();
+
+        // Call API
+        $response = self::$service->getClosedDate($request);
+
+        // Error
+        if (!is_null($response->getError())) {
+            throw new Exception('Fail to ' . self::SERVICE_NAME . '/getClosedDate.' . PHP_EOL);
+        }
+
+        // Response
+        if (is_null($response->getRval()->getValues())) {
+            throw new Exception('No response of ' . self::SERVICE_NAME . '/getClosedDate.' . PHP_EOL);
+        } else {
+
+            // Error
+            foreach ($response->getRval()->getValues() as $values) {
+                if (!is_null($values->getError())) {
+                    throw new Exception('Fail to ' . self::SERVICE_NAME . '/getClosedDate.' . PHP_EOL);
+                }
+            }
+        }
+
+        return $response;
+    }
+
+    /**
      * example mutate ReportDefinitions.
      *
      * @param mutate $request
@@ -165,22 +204,6 @@ class ReportDefinitionServiceSample
     }
 
     /**
-     * create basic ReportDefinition.
-     *
-     * @return ValuesHolder
-     * @throws Exception
-     */
-    public static function create(): ValuesHolder
-    {
-        $valuesHolder = new ValuesHolder();
-        $accountId = SoapUtils::getAccountId();
-        $addRequest = self::buildExampleMutateRequest(Operator::ADD, $accountId, [self::createExampleReportDefinition()]);
-        $addResponse = self::mutate($addRequest);
-        $valuesHolder->setReportDefinitionValuesList($addResponse->getRval()->getValues());
-        return $valuesHolder;
-    }
-
-    /**
      * cleanup service object.
      *
      * @param ValuesHolder $valuesHolder
@@ -213,15 +236,23 @@ class ReportDefinitionServiceSample
         $accountId = SoapUtils::getAccountId();
 
         try {
-
             // =================================================================
             // ReportDefinitionService getReportFields
             // =================================================================
             // create request.
-            $getReportFieldsRequest = self::buildGetReportFieldsRequest(ReportCategory::AD);
+            $getReportFieldsRequest = self::buildGetReportFieldsRequest(ReportType::AD);
 
             // run
             self::getReportFields($getReportFieldsRequest);
+
+            // =================================================================
+            // ReportService getClosedDate
+            // =================================================================
+            // create request.
+            $getClosedDateRequest = self::buildExampleGetClosedDateRequest($accountId);
+
+            // run
+            self::getClosedDate($getClosedDateRequest);
 
             // =================================================================
             // ReportDefinitionService ADD
@@ -236,11 +267,24 @@ class ReportDefinitionServiceSample
             // =================================================================
             // ReportDefinitionService GET
             // =================================================================
+            // check job status
+            self::checkStatus($valuesRepositoryFacade->getReportDefinitionValuesRepository()->getReportJobIds());
+
             // create request.
-            $getRequest = self::buildExampleGetRequest($accountId, $valuesRepositoryFacade->getReportDefinitionValuesRepository()->getReportIds());
+            $getRequest = self::buildExampleGetRequest($accountId, $valuesRepositoryFacade->getReportDefinitionValuesRepository()->getReportJobIds());
 
             // run
-            self::get($getRequest);
+            $getResponse = self::get($getRequest);
+
+            $downloadUrl = null;
+            foreach ($getResponse->getRval()->getValues() as $reportValues) {
+                $downloadUrl = $reportValues->getReportDefinition()->getReportDownloadURL();
+            }
+
+            // =================================================================
+            // ReportDefinitionService download (http request)
+            // =================================================================
+            SoapUtils::download($downloadUrl, 'reportDownloadSample.csv');
 
             // =================================================================
             // ReportDefinitionService REMOVE
@@ -271,7 +315,7 @@ class ReportDefinitionServiceSample
         $selector = new ReportDefinitionSelector($accountId);
 
         if (!is_null($reportIds)) {
-            $selector->setReportIds($reportIds);
+            $selector->setReportJobIds($reportIds);
         }
 
         $paging = new Paging(1, 20);
@@ -288,6 +332,19 @@ class ReportDefinitionServiceSample
     public static function buildGetReportFieldsRequest(string $reportCategory): getReportFields
     {
         return new getReportFields($reportCategory);
+    }
+
+    /**
+     * example getClosedDate request.
+     *
+     * @param int $accountId
+     * @return getClosedDate
+     */
+    public static function buildExampleGetClosedDateRequest(int $accountId): getClosedDate
+    {
+        return new getClosedDate(
+            new ReportClosedDateSelector($accountId)
+        );
     }
 
     /**
@@ -320,9 +377,88 @@ class ReportDefinitionServiceSample
         $operand->setFrequencyRange(ReportFrequencyRange::DAILY);
         $operand->setFormat(ReportDownloadFormat::CSV);
         $operand->setEncode(ReportDownloadEncode::UTF8);
-        $operand->setLang(ReportLang::EN);
-        $operand->setAddTemplate(ReportAddTemplate::YES);
+        $operand->setLanguage(ReportLang::EN);
         return $operand;
+    }
+
+    /**
+     * example check Report job status.
+     *
+     * @param int[] $jobIds
+     * @return void
+     * @throws Exception
+     */
+    public static function checkStatus(array $jobIds): void
+    {
+
+        // call 30sec sleep * 30 = 15minute
+        for ($i = 0; $i < 30; $i++) {
+
+            // sleep 30 second.
+            print PHP_EOL . "***** sleep 30 seconds for Report Job Status Check *****" . PHP_EOL;
+            sleep(30);
+
+            // get
+            $getRequest = self::buildExampleGetRequest(SoapUtils::getAccountId(), $jobIds);
+            $getResponse = self::get($getRequest);
+
+            $completedCount = 0;
+
+            // check status
+            foreach ($getResponse->getRval()->getValues() as $reportValues) {
+                if (!is_null($reportValues->getReportDefinition()->getReportJobStatus())) {
+                    switch ($reportValues->getReportDefinition()->getReportJobStatus()) {
+                        default:
+                        case ReportJobStatus::ACCEPTED:
+                        case ReportJobStatus::IN_PROGRESS:
+                            continue 1;
+                        case ReportJobStatus::CANCELED:
+                        case ReportJobStatus::FAILED:
+                            throw new Exception('Report Job Status failed.');
+                        case ReportJobStatus::COMPLETED:
+                            $completedCount++;
+                            continue 1;
+                    }
+                } else {
+                    throw new Exception('Fail to get Report.');
+                }
+            }
+
+            if (count($getResponse->getRval()->getValues()) === $completedCount) {
+                return;
+            }
+        }
+
+        throw new Exception('Fail to get Report.');
+    }
+
+    /**
+     * download data from url.
+     *
+     * @param string $download_url
+     * @param string $file_name
+     * @return void
+     */
+    public static function download(string $download_url, string $file_name): void
+    {
+        $file_path = __DIR__ . '/../../../../../../download/' . $file_name;
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $download_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+        echo "------------------------------------\n";
+        echo "Start download. \n";
+        echo "DOWNLOAD_URL  = $download_url \n";
+        echo "DOWNLOAD_FILE = $file_path \n";
+        echo "------------------------------------\n";
+
+        $data = curl_exec($ch);
+
+        file_put_contents($file_path, $data);
+        curl_close($ch);
     }
 }
 

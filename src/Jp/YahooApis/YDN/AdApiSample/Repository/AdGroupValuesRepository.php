@@ -6,7 +6,7 @@
 namespace Jp\YahooApis\YDN\AdApiSample\Repository;
 
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\AdGroup\AdGroup;
+use Jp\YahooApis\YDN\V201907\AdGroup\AdGroup;
 
 /**
  * Utility method collection for PHP Sample Program.

@@ -19,14 +19,14 @@ use Jp\YahooApis\YDN\AdApiSample\Basic\{AdGroup\AdGroupServiceSample,
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\{
+use Jp\YahooApis\YDN\V201907\{
     AdGroupAd\Operator as AdGroupAdOperator,
     Campaign\CampaignType,
     Campaign\Operator as CampaignOperator,
     FeedHolder\Operator as FeedHolderOperator,
     Media\LogoFlg,
     Media\Operator as MediaOperator};
-use Jp\YahooApis\YDN\V201903\{
+use Jp\YahooApis\YDN\V201907\{
     AdGroup\Operator as AdGroupOperator,
     FeedSet\Operator as FeedSetOperator};
 

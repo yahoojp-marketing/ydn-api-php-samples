@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../../../../../../vendor/autoload.php';
 
 use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
-use Jp\YahooApis\YDN\V201903\AccountAdProduct\{AccountAdProductSelector, AccountAdProductService, get, getResponse};
+use Jp\YahooApis\YDN\V201907\AccountAdProduct\{AccountAdProductSelector, AccountAdProductService, get, getResponse};
 
 /**
  * example AccountAdProductService operation and Utility method collection.

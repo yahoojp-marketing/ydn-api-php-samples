@@ -13,9 +13,9 @@ use Jp\YahooApis\YDN\AdApiSample\Basic\Label\LabelServiceSample;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\AdGroupAd\AdType;
-use Jp\YahooApis\YDN\V201903\AdGroupAdLabel\{AdGroupAdLabel, AdGroupAdLabelOperation, AdGroupAdLabelService, mutate, mutateResponse, Operator};
-use Jp\YahooApis\YDN\V201903\Campaign\CampaignType;
+use Jp\YahooApis\YDN\V201907\AdGroupAd\AdType;
+use Jp\YahooApis\YDN\V201907\AdGroupAdLabel\{AdGroupAdLabel, AdGroupAdLabelOperation, AdGroupAdLabelService, mutate, mutateResponse, Operator};
+use Jp\YahooApis\YDN\V201907\Campaign\CampaignType;
 
 /**
  * example AdGroupAdLabelService operation and Utility method collection.

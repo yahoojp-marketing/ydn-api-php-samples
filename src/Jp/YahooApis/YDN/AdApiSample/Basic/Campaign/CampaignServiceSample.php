@@ -11,7 +11,7 @@ use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\Campaign\{BiddingStrategyType,
+use Jp\YahooApis\YDN\V201907\Campaign\{BiddingStrategyType,
     Budget,
     BudgetDeliveryMethod,
     Campaign,
@@ -30,7 +30,7 @@ use Jp\YahooApis\YDN\V201903\Campaign\{BiddingStrategyType,
     mutateResponse,
     Operator,
     UserStatus};
-use Jp\YahooApis\YDN\V201903\Paging;
+use Jp\YahooApis\YDN\V201907\Paging;
 
 /**
  * example CampaignService operation and Utility method collection.

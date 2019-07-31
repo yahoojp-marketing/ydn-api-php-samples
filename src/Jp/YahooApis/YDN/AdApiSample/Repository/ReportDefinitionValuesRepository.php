@@ -6,7 +6,7 @@
 namespace Jp\YahooApis\YDN\AdApiSample\Repository;
 
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\ReportDefinition\ReportDefinition;
+use Jp\YahooApis\YDN\V201907\ReportDefinition\ReportDefinition;
 
 /**
  * Utility method collection for PHP Sample Program.
@@ -46,15 +46,15 @@ class ReportDefinitionValuesRepository
     /**
      * @return int[]
      */
-    public function getReportIds(): array
+    public function getReportJobIds(): array
     {
-        $reportIds = [];
+        $reportJobIds = [];
         if (is_null($this->valuesHolder->getReportDefinitionValuesList())) {
-            return $reportIds;
+            return $reportJobIds;
         }
         foreach ($this->valuesHolder->getReportDefinitionValuesList() as $reportDefinitionValues) {
-            $reportIds[] = $reportDefinitionValues->getReportDefinition()->getReportId();
+            $reportJobIds[] = $reportDefinitionValues->getReportDefinition()->getReportJobId();
         }
-        return $reportIds;
+        return $reportJobIds;
     }
 }

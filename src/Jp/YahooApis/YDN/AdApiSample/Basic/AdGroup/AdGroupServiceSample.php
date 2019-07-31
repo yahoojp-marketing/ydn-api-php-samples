@@ -12,7 +12,7 @@ use Jp\YahooApis\YDN\AdApiSample\Basic\Campaign\CampaignServiceSample;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\AdGroup\{AdGroup,
+use Jp\YahooApis\YDN\V201907\AdGroup\{AdGroup,
     AdGroupConversionOptimizerType,
     AdGroupOperation,
     AdGroupSelector,
@@ -31,8 +31,8 @@ use Jp\YahooApis\YDN\V201903\AdGroup\{AdGroup,
     Operator,
     SmartDeviceCarrier,
     UserStatus};
-use Jp\YahooApis\YDN\V201903\Campaign\CampaignType;
-use Jp\YahooApis\YDN\V201903\Paging;
+use Jp\YahooApis\YDN\V201907\Campaign\CampaignType;
+use Jp\YahooApis\YDN\V201907\Paging;
 
 /**
  * example AdGroupService operation and Utility method collection.

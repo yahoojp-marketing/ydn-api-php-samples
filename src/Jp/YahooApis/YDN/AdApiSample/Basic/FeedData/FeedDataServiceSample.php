@@ -13,7 +13,7 @@ use Jp\YahooApis\YDN\AdApiSample\Basic\FeedHolder\FeedHolderServiceSample;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\FeedData\{FeedDataSelector,
+use Jp\YahooApis\YDN\V201907\FeedData\{FeedDataSelector,
     FeedDataService,
     FileUploadDateRange,
     FileUploadStatus,
@@ -22,7 +22,7 @@ use Jp\YahooApis\YDN\V201903\FeedData\{FeedDataSelector,
     getUploadUrl,
     getUploadUrlResponse,
     ItemListUploadType};
-use Jp\YahooApis\YDN\V201903\Paging;
+use Jp\YahooApis\YDN\V201907\Paging;
 
 /**
  * example FeedDataService operation and Utility method collection.
@@ -266,7 +266,7 @@ class FeedDataServiceSample
      */
     public static function buildExampleGetUploadUrlRequest(int $accountId, int $feedHolderId): getUploadUrl
     {
-        return new getUploadUrl($accountId, ItemListUploadType::UPDATE_ALL, $feedHolderId);
+        return new getUploadUrl($accountId, ItemListUploadType::UPDATE_ALL, $feedHolderId, false);
     }
 
     /**

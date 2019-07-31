@@ -10,8 +10,8 @@ require_once __DIR__ . '/../../../../../../../vendor/autoload.php';
 use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\SearchKeywordIdea\{KeywordFrequency, KeywordRecency, MatchType, SearchKeywordIdeaSelector, SearchKeywordIdeaService, get, getResponse, SortField, SortType};
-use Jp\YahooApis\YDN\V201903\Paging;
+use Jp\YahooApis\YDN\V201907\SearchKeywordIdea\{KeywordFrequency, KeywordRecency, MatchType, SearchKeywordIdeaSelector, SearchKeywordIdeaService, get, getResponse, SortField, SortType};
+use Jp\YahooApis\YDN\V201907\Paging;
 
 /**
  * example SearchKeywordIdeaService operation and Utility method collection.

@@ -6,7 +6,7 @@
 namespace Jp\YahooApis\YDN\AdApiSample\Repository;
 
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\RetargetingTag\RetargetingTag;
+use Jp\YahooApis\YDN\V201907\RetargetingTag\RetargetingTag;
 
 /**
  * Utility method collection for PHP Sample Program.

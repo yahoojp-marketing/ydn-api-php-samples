@@ -12,7 +12,7 @@ use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Basic\PlacementUrlIdea\PlacementUrlIdeaServiceSample;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\PlacementUrlList\{PlacementUrlList,
+use Jp\YahooApis\YDN\V201907\PlacementUrlList\{PlacementUrlList,
     PlacementUrlListOperation,
     PlacementUrlListSelector,
     PlacementUrlListService,
@@ -23,7 +23,7 @@ use Jp\YahooApis\YDN\V201903\PlacementUrlList\{PlacementUrlList,
     Operator,
     UrlActiveFlg,
     UrlList};
-use Jp\YahooApis\YDN\V201903\Paging;
+use Jp\YahooApis\YDN\V201907\Paging;
 
 /**
  * example PlacementUrlListService operation and Utility method collection.

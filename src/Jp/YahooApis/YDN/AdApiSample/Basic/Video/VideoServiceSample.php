@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../../../../../../vendor/autoload.php';
 
 use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
-use Jp\YahooApis\YDN\V201903\Video\{UploadVideo,
+use Jp\YahooApis\YDN\V201907\Video\{UploadVideo,
     Video,
     ApprovalStatus,
     UserStatus,
@@ -23,7 +23,7 @@ use Jp\YahooApis\YDN\V201903\Video\{UploadVideo,
     Operator,
     getUploadUrl,
     getUploadUrlResponse};
-use Jp\YahooApis\YDN\V201903\Paging;
+use Jp\YahooApis\YDN\V201907\Paging;
 
 /**
  * example VideoService operation and Utility method collection.

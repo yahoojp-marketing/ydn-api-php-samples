@@ -10,8 +10,8 @@ require_once __DIR__ . '/../../../../../../../vendor/autoload.php';
 use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\PlacementUrlIdea\{AdFormatConditions, PlacementUrlIdeaSelector, PlacementUrlIdeaService, get, getResponse};
-use Jp\YahooApis\YDN\V201903\Paging;
+use Jp\YahooApis\YDN\V201907\PlacementUrlIdea\{AdFormatConditions, PlacementUrlIdeaSelector, PlacementUrlIdeaService, get, getResponse};
+use Jp\YahooApis\YDN\V201907\Paging;
 
 /**
  * example PlacementUrlIdeaService operation and Utility method collection.

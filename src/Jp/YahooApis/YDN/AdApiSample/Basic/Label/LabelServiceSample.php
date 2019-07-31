@@ -11,8 +11,8 @@ use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\Label\{get, getResponse, Label, LabelOperation, LabelSelector, LabelService, mutate, mutateResponse, Operator};
-use Jp\YahooApis\YDN\V201903\Paging;
+use Jp\YahooApis\YDN\V201907\Label\{get, getResponse, Label, LabelOperation, LabelSelector, LabelService, mutate, mutateResponse, Operator};
+use Jp\YahooApis\YDN\V201907\Paging;
 
 /**
  * example LabelService operation and Utility method collection.

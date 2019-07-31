@@ -18,7 +18,7 @@ use Jp\YahooApis\YDN\AdApiSample\Basic\{AdGroup\AdGroupServiceSample,
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\{
+use Jp\YahooApis\YDN\V201907\{
     AdGroup\Operator as AdGroupOperator,
     AdGroupTarget\Operator as AdGroupTargetOperator,
     AdGroupAd\Operator as AdGroupAdOperator,

@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../../../../../../vendor/autoload.php';
 
 use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
-use Jp\YahooApis\YDN\V201903\Dictionary\{CategorySelector,
+use Jp\YahooApis\YDN\V201907\Dictionary\{CategorySelector,
     ColorSetSelector,
     DeviceOsType,
     DictionaryLang,

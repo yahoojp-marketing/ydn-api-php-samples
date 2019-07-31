@@ -11,8 +11,8 @@ use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\Media\{ImageMedia, LogoFlg, Media, MediaOperation, MediaRecord, MediaSelector, MediaService, get, getResponse, mutate, mutateResponse, Operator, UserStatus};
-use Jp\YahooApis\YDN\V201903\Paging;
+use Jp\YahooApis\YDN\V201907\Media\{ImageMedia, LogoFlg, Media, MediaOperation, MediaRecord, MediaSelector, MediaService, get, getResponse, mutate, mutateResponse, Operator, UserStatus};
+use Jp\YahooApis\YDN\V201907\Paging;
 
 /**
  * example MediaService operation and Utility method collection.

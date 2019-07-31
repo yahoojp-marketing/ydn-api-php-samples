@@ -9,8 +9,8 @@ require_once __DIR__ . '/../../../../../../../vendor/autoload.php';
 
 use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
-use Jp\YahooApis\YDN\V201903\Stats\{StatsPeriod, StatsPeriodCustomDate, StatsType, TargetType, StatsSelector, get, getResponse, StatsService};
-use Jp\YahooApis\YDN\V201903\Paging;
+use Jp\YahooApis\YDN\V201907\Stats\{StatsPeriod, StatsPeriodCustomDate, StatsType, TargetType, StatsSelector, get, getResponse, StatsService};
+use Jp\YahooApis\YDN\V201907\Paging;
 
 /**
  * example StatsService operation and Utility method collection.
@@ -81,17 +81,22 @@ class StatsServiceSample
         $selector->setStatsType($statsType);
 
         switch ($statsType) {
-            case $statsType = StatsType::CAMPAIGN:
+            case StatsType::CAMPAIGN:
                 $selector->setCampaignIds([$targetId]);
                 break;
-            case $statsType = StatsType::ADGROUP:
+            case StatsType::ADGROUP:
                 $selector->setAdGroupIds([$targetId]);
                 break;
-            case $statsType = StatsType::TARGET:
+            case StatsType::TARGET:
                 $selector->setStatsPeriod(StatsPeriod::CUSTOM_DATE);
-                $statsPeriodCustomDate = new StatsPeriodCustomDate('20201231','20301231');
+                $statsPeriodCustomDate = new StatsPeriodCustomDate('20190101','20301231');
                 $selector->setStatsPeriodCustomDate($statsPeriodCustomDate);
                 $selector->setTargetTypes([TargetType::AD_SCHEDULE_TARGET]);
+                break;
+            case StatsType::VIDEO:
+                $selector->setStatsPeriod(StatsPeriod::CUSTOM_DATE);
+                $statsPeriodCustomDate = new StatsPeriodCustomDate('20190101','20301231');
+                $selector->setStatsPeriodCustomDate($statsPeriodCustomDate);
                 break;
         }
 
@@ -115,6 +120,15 @@ class StatsServiceSample
         $adGroupId = null;
 
         try {
+            // =================================================================
+            // StatsService GET (Video)
+            // =================================================================
+            // create request.
+            $getRequestTarget = self::buildExampleGetRequest($accountId, StatsType::VIDEO, null);
+
+            // run
+            self::get($getRequestTarget);
+
             // =================================================================
             // StatsService GET (Target)
             // =================================================================

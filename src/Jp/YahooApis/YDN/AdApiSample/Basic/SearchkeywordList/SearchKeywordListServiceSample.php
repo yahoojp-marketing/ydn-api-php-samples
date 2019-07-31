@@ -12,7 +12,7 @@ use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Basic\SearchKeywordIdea\SearchKeywordIdeaServiceSample;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\SearchKeywordList\{SearchKeyword,
+use Jp\YahooApis\YDN\V201907\SearchKeywordList\{SearchKeyword,
     SearchKeywordList,
     SearchKeywordListOperation,
     SearchKeywordListSelector,
@@ -22,7 +22,7 @@ use Jp\YahooApis\YDN\V201903\SearchKeywordList\{SearchKeyword,
     mutate,
     mutateResponse,
     Operator};
-use Jp\YahooApis\YDN\V201903\Paging;
+use Jp\YahooApis\YDN\V201907\Paging;
 
 /**
  * example SearchKeywordListService operation and Utility method collection.

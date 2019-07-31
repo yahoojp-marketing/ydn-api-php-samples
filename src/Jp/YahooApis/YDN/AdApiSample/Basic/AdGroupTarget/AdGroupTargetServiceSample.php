@@ -12,7 +12,7 @@ use Jp\YahooApis\YDN\AdApiSample\Basic\AdGroup\AdGroupServiceSample;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201903\AdGroupTarget\{AdGroupTarget,
+use Jp\YahooApis\YDN\V201907\AdGroupTarget\{AdGroupTarget,
     AdGroupTargetService,
     AdGroupTargetSelector,
     AdGroupTargetOperation,
@@ -39,8 +39,8 @@ use Jp\YahooApis\YDN\V201903\AdGroupTarget\{AdGroupTarget,
     replaceResponse,
     SiteCategoryTarget,
     TargetType};
-use Jp\YahooApis\YDN\V201903\Campaign\CampaignType;
-use Jp\YahooApis\YDN\V201903\Paging;
+use Jp\YahooApis\YDN\V201907\Campaign\CampaignType;
+use Jp\YahooApis\YDN\V201907\Paging;
 
 /**
  * example AdGroupTargetService operation and Utility method collection.

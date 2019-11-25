@@ -18,7 +18,7 @@ use Jp\YahooApis\YDN\AdApiSample\Basic\{AdGroup\AdGroupServiceSample,
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201907\{
+use Jp\YahooApis\YDN\V201911\{
     AdGroup\Operator as AdGroupOperator,
     AdGroupTarget\Operator as AdGroupTargetOperator,
     AdGroupAd\Operator as AdGroupAdOperator,
@@ -55,24 +55,24 @@ class AdGroupTargetSample
             // =================================================================
             // ADD
             $addRequestCampaign = CampaignServiceSample::buildExampleMutateRequest(
-                CampaignOperator::ADD, $accountId, [CampaignServiceSample::createExampleStandardCampaign()]
+                CampaignOperator::ADD, $accountId, [CampaignServiceSample::createExampleStandardCampaign(), CampaignServiceSample::createExampleCampaignByCampaignGoal()]
             );
             $addResponseCampaign = CampaignServiceSample::mutate($addRequestCampaign);
 
             $valuesHolder->setCampaignValuesList($addResponseCampaign->getRval()->getValues());
-            $campaignId = $valuesRepositoryFacade->getCampaignValuesRepository()->findCampaignId(CampaignType::STANDARD);
+            $campaignIds = $valuesRepositoryFacade->getCampaignValuesRepository()->getCampaignIds();
 
             // =================================================================
             // AdGroupService
             // =================================================================
             // ADD
             $addRequestAdGroup = AdGroupServiceSample::buildExampleMutateRequest(
-                AdGroupOperator::ADD, $accountId, [AdGroupServiceSample::createExampleStandardAdGroup($campaignId)]
+                AdGroupOperator::ADD, $accountId, [AdGroupServiceSample::createExampleStandardAdGroup($campaignIds[0]), AdGroupServiceSample::createExampleAdGroupByCampaignGoal($campaignIds[1])]
             );
             $addResponseAdGroup = AdGroupServiceSample::mutate($addRequestAdGroup);
 
             $valuesHolder->setAdGroupValuesList($addResponseAdGroup->getRval()->getValues());
-            $adGroupId = $valuesRepositoryFacade->getAdGroupValuesRepository()->findAdGroupId($campaignId);
+            $adGroupIds = $valuesRepositoryFacade->getAdGroupValuesRepository()->getAdGroupIds();
 
             // =================================================================
             // PlacementUrlIdeaService
@@ -97,17 +97,18 @@ class AdGroupTargetSample
             // DictionaryService
             // =================================================================
             // GET
-            $getRequestDictionary = DictionaryServiceSample::buildExampleGetInterestCategoryRequest();
-            $getResponseDictionary = DictionaryServiceSample::getInterestCategory($getRequestDictionary);
+            $getResponseDictionary = DictionaryServiceSample::getInterestCategory(DictionaryServiceSample::buildExampleGetInterestCategoryRequest());
+            $getResponseDictionary2 = DictionaryServiceSample::getAudienceCategory(DictionaryServiceSample::buildExampleGetAudienceCategoryRequest());
 
             // =================================================================
             // AdGroupTargetService
             // =================================================================
             // ADD
             $addRequestAdGroupTarget = AdGroupTargetServiceSample::buildExampleMutateRequest(AdGroupTargetOperator::ADD, $accountId, [
-                AdGroupTargetServiceSample::createExamplePlacementTarget($campaignId, $adGroupId, $valuesRepositoryFacade->getPlacementUrlListValuesRepository()->getPlacementUrlIdLists()[0]),
-                AdGroupTargetServiceSample::createExampleInterestCategoryTarget($campaignId, $adGroupId, $getResponseDictionary->getRval()->getValues()[0]->getCategory()->getChild()[0]->getCode()),
-                AdGroupTargetServiceSample::createExampleAgeTarget($campaignId, $adGroupId),
+                AdGroupTargetServiceSample::createExamplePlacementTarget($campaignIds[0], $adGroupIds[0], $valuesRepositoryFacade->getPlacementUrlListValuesRepository()->getPlacementUrlIdLists()[0]),
+                AdGroupTargetServiceSample::createExampleInterestCategoryTarget($campaignIds[0], $adGroupIds[0], $getResponseDictionary->getRval()->getValues()[0]->getCategory()->getChild()[0]->getCode()),
+                AdGroupTargetServiceSample::createExampleAgeTarget($campaignIds[0], $adGroupIds[0]),
+                AdGroupTargetServiceSample::createExampleAudienceCategoryTarget($campaignIds[1], $adGroupIds[1], $getResponseDictionary2->getRval()->getValues()[0]->getCategory()->getCode())
             ]);
             AdGroupTargetServiceSample::mutate($addRequestAdGroupTarget);
 
@@ -116,7 +117,7 @@ class AdGroupTargetSample
             // =================================================================
             // ADD
             $addRequestAdGroupAd = AdGroupAdServiceSample::buildExampleMutateRequest(AdGroupAdOperator::ADD, $accountId, [
-                AdGroupAdServiceSample::createExampleExtendedTextAd($campaignId, $adGroupId),
+                AdGroupAdServiceSample::createExampleExtendedTextAd($campaignIds[0], $adGroupIds[0]),
             ]);
             AdGroupAdServiceSample::mutate($addRequestAdGroupAd);
 

@@ -12,7 +12,7 @@ use Jp\YahooApis\YDN\AdApiSample\Basic\AdGroup\AdGroupServiceSample;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201907\AdGroupTarget\{AdGroupTarget,
+use Jp\YahooApis\YDN\V201911\AdGroupTarget\{AdGroupTarget,
     AdGroupTargetService,
     AdGroupTargetSelector,
     AdGroupTargetOperation,
@@ -30,6 +30,7 @@ use Jp\YahooApis\YDN\V201907\AdGroupTarget\{AdGroupTarget,
     get,
     getResponse,
     InterestCategoryTarget,
+    AudienceCategoryTarget,
     mutate,
     mutateResponse,
     Operator,
@@ -39,8 +40,8 @@ use Jp\YahooApis\YDN\V201907\AdGroupTarget\{AdGroupTarget,
     replaceResponse,
     SiteCategoryTarget,
     TargetType};
-use Jp\YahooApis\YDN\V201907\Campaign\CampaignType;
-use Jp\YahooApis\YDN\V201907\Paging;
+use Jp\YahooApis\YDN\V201911\Campaign\CampaignType;
+use Jp\YahooApis\YDN\V201911\Paging;
 
 /**
  * example AdGroupTargetService operation and Utility method collection.
@@ -470,6 +471,31 @@ class AdGroupTargetServiceSample
 
         return $adGroupTarget;
     }
+
+    /**
+     * example Audience Category Target request.
+     *
+     * @param int campaignId
+     * @param int adGroupId
+     * @param string categoryCode
+     * @return AdGroupTarget
+     */
+    public static function createExampleAudienceCategoryTarget(int $campaignId, int $adGroupId, String $categoryCode): AdGroupTarget
+    {
+      // target
+      $target = new AudienceCategoryTarget(TargetType::AUDIENCE_CATEGORY_TARGET);
+      $target->setTargetId($categoryCode);
+
+      // adGroupTarget
+      $adGroupTarget = new AdGroupTarget();
+      $adGroupTarget->setAccountId(SoapUtils::getAccountId());
+      $adGroupTarget->setCampaignId($campaignId);
+      $adGroupTarget->setAdGroupId($adGroupId);
+      $adGroupTarget->setTarget($target);
+
+      return $adGroupTarget;
+    }
+
 
     /**
      * example Schedule Target replace request.

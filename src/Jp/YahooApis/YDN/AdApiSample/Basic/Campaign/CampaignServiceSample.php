@@ -11,7 +11,7 @@ use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201907\Campaign\{BiddingStrategyType,
+use Jp\YahooApis\YDN\V201911\Campaign\{BiddingStrategyType,
     Budget,
     BudgetDeliveryMethod,
     Campaign,
@@ -26,11 +26,17 @@ use Jp\YahooApis\YDN\V201907\Campaign\{BiddingStrategyType,
     get,
     getResponse,
     ManualCPC,
+    ManualCPV,
+    CampaignConversionOptimizerType,
     mutate,
     mutateResponse,
     Operator,
+    ViewableFrequencyCap,
+    CampaignBiddingStrategy,
+    CampaignBiddingStrategyType,
+    ManualCampaignConversionOptimizer,
     UserStatus};
-use Jp\YahooApis\YDN\V201907\Paging;
+use Jp\YahooApis\YDN\V201911\Paging;
 
 /**
  * example CampaignService operation and Utility method collection.
@@ -169,6 +175,7 @@ class CampaignServiceSample
                 self::createExampleStandardCampaign(),
                 self::createExampleAppCampaignANDROID(),
                 self::createExampleAppCampaignIOS(),
+                self::createExampleCampaignByCampaignGoal()
             ]);
 
             // run
@@ -189,7 +196,7 @@ class CampaignServiceSample
             // =================================================================
             // create request.
             $setRequest = self::buildExampleMutateRequest(Operator::SET, $accountId,
-                self::createExampleSetRequest($accountId, $valuesRepositoryFacade->getCampaignValuesRepository()->getCampaigns())
+                self::createExampleSetRequest($accountId, $valuesRepositoryFacade->getCampaignValuesRepository()->getCampaigns(), $valuesRepositoryFacade->getCampaignValuesRepository()->findCampaignIdByCampaignGoal())
             );
 
             // run
@@ -294,6 +301,81 @@ class CampaignServiceSample
         $campaign->setCampaignType(CampaignType::STANDARD);
 
         return $campaign;
+    }
+
+    /**
+     * example Campaign By CampaignGoal request.
+     *
+     * @return Campaign
+     */
+    public static function createExampleCampaignByCampaignGoal(): Campaign
+    {
+      // budget
+      $budget = new Budget();
+      $budget->setAmount(1000);
+
+      // manualCPC
+      $manualCPC = new ManualCPC();
+      $manualCPC->setType(BiddingStrategyType::MANUAL_CPV);
+
+      $viewableFrequencyCap = new ViewableFrequencyCap();
+      $viewableFrequencyCap->setLevel(FrequencyLevel::CAMPAIGN);
+      $viewableFrequencyCap->setTimeUnit(FrequencyTimeUnit::DAY);
+      $viewableFrequencyCap->setVImps(10);
+
+      $campaignBiddingStrategy = new CampaignBiddingStrategy(CampaignBiddingStrategyType::MAX_CPC);
+      $campaignBiddingStrategy->setMaxCpcBidValue(10);
+
+      // campaign
+      $campaign = new Campaign(SoapUtils::getAccountId());
+      $campaign->setCampaignName('SampleCampaignByCampaignGoal_CreateOn_' . SoapUtils::getCurrentTimestamp());
+      $campaign->setUserStatus(UserStatus::ACTIVE);
+      $campaign->setBudget($budget);
+      $campaign->setBiddingStrategy($manualCPC);
+      $campaign->setCampaignType(CampaignType::STANDARD);
+      $campaign->setCampaignGoal('WEBSITE_TRAFFIC');
+      $campaign->setCampaignBiddingStrategy($campaignBiddingStrategy);
+
+      return $campaign;
+    }
+
+    /**
+     * example Campaign Video Ad request.
+     *
+     * @return Campaign
+     */
+    public static function createExampleCampaignVideoAd(): Campaign
+    {
+      // budget
+      $budget = new Budget();
+      $budget->setDeliveryMethod(BudgetDeliveryMethod::ACCELERATED);
+
+      // manualCPV
+      $manualCPV = new ManualCPV();
+      $manualCPV->setType(BiddingStrategyType::MANUAL_CPV);
+
+      // frequencyCap
+      $frequencyCap = new FrequencyCap();
+      $frequencyCap->setLevel(FrequencyLevel::CAMPAIGN);
+      $frequencyCap->setTimeUnit(FrequencyTimeUnit::DAY);
+      $frequencyCap->setImpression(15);
+
+      // conversionOptimizer
+      $conversionOptimizer = new ManualCampaignConversionOptimizer();
+      $conversionOptimizer->setOptimizerType(CampaignConversionOptimizerType::MANUAL);
+
+      // campaign
+      $campaign = new Campaign(SoapUtils::getAccountId());
+      $campaign->setCampaignName('SampleCampaignPcBrandPanelVideo_CreateOn_' . SoapUtils::getCurrentTimestamp());
+      $campaign->setUserStatus(UserStatus::ACTIVE);
+      $campaign->setBudget($budget);
+      $campaign->setBiddingStrategy($manualCPV);
+      $campaign->setAdProductType("VIDEO_AD");
+      $campaign->setFrequencyCap($frequencyCap);
+      $campaign->setConversionOptimizer($conversionOptimizer);
+      $campaign->setCampaignType(CampaignType::STANDARD);
+
+      return $campaign;
     }
 
     /**
@@ -408,14 +490,21 @@ class CampaignServiceSample
      *
      * @param int $accountId
      * @param array $campaigns
+     * @param int $campaignIdByCampaignGoal
      * @return array Campaign[]
      */
-    public static function createExampleSetRequest(int $accountId, array $campaigns): array
+    public static function createExampleSetRequest(int $accountId, array $campaigns, int $campaignIdByCampaignGoal): array
     {
+        $campaignByCampaignGoal = $campaigns[count($campaigns)-1];
+        unset($campaigns[count($campaigns)-1]);
+
         // create operands
         $operands = [];
 
         foreach ($campaigns as $campaign) {
+            if ($campaign->getCampaignId() == $campaignIdByCampaignGoal) {
+                continue;
+            }
             // budget
             $budget = new Budget();
             $budget->setAmount(2000);
@@ -444,6 +533,22 @@ class CampaignServiceSample
             $operands[] = $operand;
         }
 
+        // campaign by campaignGoal
+        $campaignBiddingStrategy = new CampaignBiddingStrategy(CampaignBiddingStrategyType::MAX_CPC);
+        $campaignBiddingStrategy->setMaxCpcBidValue(5);
+
+        $viewableFrequencyCap = new ViewableFrequencyCap();
+        $viewableFrequencyCap->setLevel(FrequencyLevel::AD_GROUP);
+        $viewableFrequencyCap->setTimeUnit(FrequencyTimeUnit::WEEK);
+        $viewableFrequencyCap->setVImps(5);
+
+        $operandByCampaignGoal = new Campaign($accountId);
+        $operandByCampaignGoal->setCampaignId($campaignIdByCampaignGoal);
+        $operandByCampaignGoal->setUserStatus(UserStatus::PAUSED);
+        $operandByCampaignGoal->setCampaignBiddingStrategy($campaignBiddingStrategy);
+        $operandByCampaignGoal->setViewableFrequencyCap($viewableFrequencyCap);
+        $operands[] = $operandByCampaignGoal;
+
         return $operands;
     }
 
@@ -461,6 +566,8 @@ class CampaignServiceSample
             self::createExampleStandardCampaign(),
             self::createExampleAppCampaignANDROID(),
             self::createExampleAppCampaignIOS(),
+            self::createExampleCampaignByCampaignGoal(),
+            self::createExampleCampaignVideoAd()
         ]);
 
         $response = self::mutate($request);

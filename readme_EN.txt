@@ -1,14 +1,16 @@
 --------------------------------
 [Version]
 --------------------------------
-Version 201907
+Version 201911
 
 - Change logs
 -----------
-2019/03/11:
-- 201903 is now available.
+2019/11/27:
+- 201911 is now available.
 2019/08/01:
 - 201907 is now available.
+2019/03/11:
+- 201903 is now available.
 
 --------------------------------
 [Overview]
@@ -22,7 +24,7 @@ We utilize SoapClient Library to call APIs.
 conf/
   - api_config.ini      : Config files to specify Ids.
 src/Jp/YahooApis/YDN/
-  - V201907             : PHP Entity classes for written versions (V201903).
+  - V201911             : PHP Entity classes for written versions (V201911).
   - AdApiSample/
     - Basic/            : Examples of each services of Yahoo! JAPAN Promotional Ads (YDN).
     - Feature/          : Examples of how to create ads, set targeting of Yahoo! JAPAN Promotional Ads (YDN).

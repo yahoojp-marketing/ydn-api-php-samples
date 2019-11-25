@@ -6,7 +6,7 @@
 namespace Jp\YahooApis\YDN\AdApiSample\Util;
 
 use Exception;
-use Jp\YahooApis\YDN\V201907\Location\{get, LocationService};
+use Jp\YahooApis\YDN\V201911\Location\{get, LocationService};
 use ReflectionClass;
 use ReflectionException;
 

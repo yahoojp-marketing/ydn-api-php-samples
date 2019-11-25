@@ -10,7 +10,7 @@ require_once __DIR__ . '/../../../../../../../vendor/autoload.php';
 use DOMDocument;
 use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
-use Jp\YahooApis\YDN\V201907\Bulk\{ApprovalStatus,
+use Jp\YahooApis\YDN\V201911\Bulk\{ApprovalStatus,
     BulkDownloadSelector,
     BulkDownloadStatusSelector,
     BulkDownloadType,
@@ -32,7 +32,7 @@ use Jp\YahooApis\YDN\V201907\Bulk\{ApprovalStatus,
     MediaApprovalStatus,
     UploadBulkJobStatus,
     UserStatus};
-use Jp\YahooApis\YDN\V201907\Paging;
+use Jp\YahooApis\YDN\V201911\Paging;
 
 /**
  * example BulkService operation and Utility method collection.

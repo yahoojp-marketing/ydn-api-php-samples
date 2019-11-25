@@ -11,8 +11,8 @@ use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201907\Media\{ImageMedia, LogoFlg, Media, MediaOperation, MediaRecord, MediaSelector, MediaService, get, getResponse, mutate, mutateResponse, Operator, UserStatus};
-use Jp\YahooApis\YDN\V201907\Paging;
+use Jp\YahooApis\YDN\V201911\Media\{ImageMedia, LogoFlg, Media, MediaOperation, MediaRecord, MediaSelector, MediaService, get, getResponse, mutate, mutateResponse, Operator, ThumbnailFlg, UserStatus};
+use Jp\YahooApis\YDN\V201911\Paging;
 
 /**
  * example MediaService operation and Utility method collection.
@@ -165,7 +165,7 @@ class MediaServiceSample
             // =================================================================
             // create request.
             $addRequest = self::buildExampleMutateRequest(Operator::ADD, $accountId, [
-                self::createExampleMedia('SampleMedia.jpg', false),
+                self::createExampleMedia('SampleMedia.jpg', false, false),
             ]);
 
             // run
@@ -259,10 +259,11 @@ class MediaServiceSample
      *
      * @param string $fileName
      * @param bool $logoFlag
+     * @param bool $thumbnailFlg
      * @return MediaRecord
      * @throws Exception
      */
-    public static function createExampleMedia(string $fileName, bool $logoFlag): MediaRecord
+    public static function createExampleMedia(string $fileName, bool $logoFlag, bool $thumbnailFlg): MediaRecord
     {
         // imageMedia
         $filePath = dirname(__FILE__) . '/../../../../../../../upload/' . $fileName ;
@@ -280,6 +281,9 @@ class MediaServiceSample
         $media->setMedia($imageMedia);
         if ($logoFlag) {
             $media->setLogoFlg(LogoFlg::TRUE);
+        }
+        if ($thumbnailFlg) {
+            $media->setThumbnailFlg(ThumbnailFlg::TRUE);
         }
 
         return $media;

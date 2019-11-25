@@ -19,16 +19,14 @@ use Jp\YahooApis\YDN\AdApiSample\Basic\{AdGroup\AdGroupServiceSample,
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201907\{
+use Jp\YahooApis\YDN\V201911\{
     AdGroupAd\Operator as AdGroupAdOperator,
     Campaign\CampaignType,
     Campaign\Operator as CampaignOperator,
     FeedHolder\Operator as FeedHolderOperator,
     Media\LogoFlg,
     Media\Operator as MediaOperator};
-use Jp\YahooApis\YDN\V201907\{
-    AdGroup\Operator as AdGroupOperator,
-    FeedSet\Operator as FeedSetOperator};
+use Jp\YahooApis\YDN\V201911\{AdGroup\Operator as AdGroupOperator, FeedSet\Operator as FeedSetOperator, Media\ThumbnailFlg};
 
 /**
  * example DynamicAdsForDisplay operation and Utility method collection.
@@ -102,7 +100,7 @@ class DynamicAdsForDisplaySample
 
             // ADD(Logo1)
             $addRequestMedia1 = MediaServiceSample::buildExampleMutateRequest(MediaOperator::ADD, $accountId, [
-                              MediaServiceSample::createExampleMedia('LogoMedia1.jpg', LogoFlg::TRUE)
+                              MediaServiceSample::createExampleMedia('LogoMedia1.jpg', LogoFlg::TRUE, ThumbnailFlg::FALSE)
             ]);
             $addResponseMedia1 = MediaServiceSample::mutate($addRequestMedia1);
             $valuesHolder->setMediaValuesList($addResponseMedia1->getRval()->getValues());
@@ -110,7 +108,7 @@ class DynamicAdsForDisplaySample
 
             // ADD(Logo2)
             $addRequestMedia2 = MediaServiceSample::buildExampleMutateRequest(MediaOperator::ADD, $accountId, [
-                MediaServiceSample::createExampleMedia('LogoMedia2.jpg', LogoFlg::TRUE)
+                MediaServiceSample::createExampleMedia('LogoMedia2.jpg', LogoFlg::TRUE, ThumbnailFlg::FALSE)
             ]);
             $addResponseMedia2 = MediaServiceSample::mutate($addRequestMedia2);
             $valuesHolder->setMediaValuesList($addResponseMedia2->getRval()->getValues());
@@ -118,7 +116,7 @@ class DynamicAdsForDisplaySample
 
             // ADD(Logo3)
             $addRequestMedia3 = MediaServiceSample::buildExampleMutateRequest(MediaOperator::ADD, $accountId, [
-                MediaServiceSample::createExampleMedia('LogoMedia3.jpg', LogoFlg::TRUE)
+                MediaServiceSample::createExampleMedia('LogoMedia3.jpg', LogoFlg::TRUE, ThumbnailFlg::FALSE)
             ]);
             $addResponseMedia3 = MediaServiceSample::mutate($addRequestMedia3);
             $valuesHolder->setMediaValuesList($addResponseMedia3->getRval()->getValues());

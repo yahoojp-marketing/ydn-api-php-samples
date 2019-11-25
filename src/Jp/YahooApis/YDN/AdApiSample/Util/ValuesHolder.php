@@ -5,7 +5,7 @@
 
 namespace Jp\YahooApis\YDN\AdApiSample\Util;
 
-use Jp\YahooApis\YDN\V201907\{AdGroupAd\AdGroupAdValues,
+use Jp\YahooApis\YDN\V201911\{AdGroupAd\AdGroupAdValues,
     AdGroup\AdGroupValues,
     Campaign\CampaignValues,
     Label\LabelValues,

@@ -10,8 +10,8 @@ require_once __DIR__ . '/../../../../../../../vendor/autoload.php';
 use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201907\PlacementUrlIdea\{AdFormatConditions, PlacementUrlIdeaSelector, PlacementUrlIdeaService, get, getResponse};
-use Jp\YahooApis\YDN\V201907\Paging;
+use Jp\YahooApis\YDN\V201911\PlacementUrlIdea\{AdFormatConditions, PlacementUrlIdeaSelector, PlacementUrlIdeaService, get, getResponse};
+use Jp\YahooApis\YDN\V201911\Paging;
 
 /**
  * example PlacementUrlIdeaService operation and Utility method collection.
@@ -100,8 +100,8 @@ class PlacementUrlIdeaServiceSample
     public static function buildExampleGetRequest(): get
     {
         $selector = new PlacementUrlIdeaSelector();
-        $selector->setKeyword('jugem');
-        $selector->setSiteCategories(['TC-SC-20110120100100']);
+        $selector->setKeyword('');
+        $selector->setSiteCategories(['TC-SC-10110100100100']);
 
         $adFormat = new AdFormatConditions();
         $adFormat->setAdStyle('IMAGE');

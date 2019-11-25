@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../../../../../../vendor/autoload.php';
 
 use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
-use Jp\YahooApis\YDN\V201907\Balance\{BalanceSelector, BalanceService, get, getResponse};
+use Jp\YahooApis\YDN\V201911\Balance\{BalanceSelector, BalanceService, get, getResponse};
 
 /**
  * example BalanceService operation and Utility method collection.

@@ -6,8 +6,8 @@
 namespace Jp\YahooApis\YDN\AdApiSample\Repository;
 
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201907\Campaign\Campaign;
-use Jp\YahooApis\YDN\V201907\Campaign\CampaignType;
+use Jp\YahooApis\YDN\V201911\Campaign\Campaign;
+use Jp\YahooApis\YDN\V201911\Campaign\CampaignType;
 
 /**
  * Utility method collection for PHP Sample Program.
@@ -71,6 +71,40 @@ class CampaignValuesRepository
         } else {
             return $this->findCampaignIdByCampaignType($campaignType);
         }
+    }
+
+    /**
+     * @param
+     * @return int|null
+     */
+    public function findCampaignIdByCampaignGoal(): ?int
+    {
+        if (is_null($this->valuesHolder->getCampaignValuesList())) {
+            return null;
+        }
+        foreach ($this->valuesHolder->getCampaignValuesList() as $campaignValues) {
+            if ($campaignValues->getCampaign()->getCampaignGoal() !== "NONE") {
+                return $campaignValues->getCampaign()->getCampaignId();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param string $adProductType
+     * @return int|null
+     */
+    public function findCampaignIdAdProductType(String $adProductType): ?int
+    {
+        if (is_null($this->valuesHolder->getCampaignValuesList())) {
+            return null;
+        }
+        foreach ($this->valuesHolder->getCampaignValuesList() as $campaignValues) {
+            if ($campaignValues->getCampaign()->getAdProductType() == $adProductType) {
+                return $campaignValues->getCampaign()->getCampaignId();
+            }
+        }
+        return null;
     }
 
     /**

@@ -6,7 +6,7 @@
 namespace Jp\YahooApis\YDN\AdApiSample\Repository;
 
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201907\SearchKeywordList\SearchKeywordList;
+use Jp\YahooApis\YDN\V201911\SearchKeywordList\SearchKeywordList;
 
 /**
  * Utility method collection for PHP Sample Program.

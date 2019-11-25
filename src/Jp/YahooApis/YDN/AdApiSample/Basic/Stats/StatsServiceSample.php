@@ -9,8 +9,8 @@ require_once __DIR__ . '/../../../../../../../vendor/autoload.php';
 
 use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
-use Jp\YahooApis\YDN\V201907\Stats\{StatsPeriod, StatsPeriodCustomDate, StatsType, TargetType, StatsSelector, get, getResponse, StatsService};
-use Jp\YahooApis\YDN\V201907\Paging;
+use Jp\YahooApis\YDN\V201911\Stats\{StatsPeriod, StatsPeriodCustomDate, StatsType, TargetType, StatsSelector, get, getResponse, StatsService};
+use Jp\YahooApis\YDN\V201911\Paging;
 
 /**
  * example StatsService operation and Utility method collection.

@@ -12,7 +12,8 @@ use Jp\YahooApis\YDN\AdApiSample\Basic\Campaign\CampaignServiceSample;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201907\AdGroup\{AdGroup,
+use Jp\YahooApis\YDN\V201911\AdGroup\{AdGroup,
+    AdGroupBiddingStrategy,
     AdGroupConversionOptimizerType,
     AdGroupOperation,
     AdGroupSelector,
@@ -25,14 +26,15 @@ use Jp\YahooApis\YDN\V201907\AdGroup\{AdGroup,
     get,
     getResponse,
     ManualCPCAdGroupBid,
+    ManualCPVAdGroupBid,
     mutate,
     mutateResponse,
     NoneAdGroupConversionOptimizer,
     Operator,
     SmartDeviceCarrier,
     UserStatus};
-use Jp\YahooApis\YDN\V201907\Campaign\CampaignType;
-use Jp\YahooApis\YDN\V201907\Paging;
+use Jp\YahooApis\YDN\V201911\Campaign\CampaignType;
+use Jp\YahooApis\YDN\V201911\Paging;
 
 /**
  * example AdGroupService operation and Utility method collection.
@@ -142,11 +144,13 @@ class AdGroupServiceSample
         $campaignIdStandard = $parentValuesRepositoryFacade->getCampaignValuesRepository()->findCampaignId(CampaignType::STANDARD);
         $campaignIdAppIOS = $parentValuesRepositoryFacade->getCampaignValuesRepository()->findCampaignId(CampaignType::APP, DeviceOsType::IOS);
         $campaignIdAppANDROID = $parentValuesRepositoryFacade->getCampaignValuesRepository()->findCampaignId(CampaignType::APP, DeviceOsType::ANDROID);
+        $campaignIdVideoAd = $parentValuesRepositoryFacade->getCampaignValuesRepository()->findCampaignIdAdProductType("VIDEO_AD");
 
         $request = self::buildExampleMutateRequest(Operator::ADD, $accountId, [
             self::createExampleStandardAdGroup($campaignIdStandard),
             self::createExampleAppIOSAdGroup($campaignIdAppIOS),
             self::createExampleAppANDROIDAdGroup($campaignIdAppANDROID),
+            self::createExampleAppANDROIDAdGroup2($campaignIdVideoAd)
         ]);
         $response = self::mutate($request);
 
@@ -199,6 +203,7 @@ class AdGroupServiceSample
             $campaignId = $valuesRepositoryFacade->getCampaignValuesRepository()->findCampaignId(
                 CampaignType::APP, DeviceOsType::IOS
             );
+            $campaignIdByCampaignGoal = $valuesRepositoryFacade->getCampaignValuesRepository()->findCampaignIdByCampaignGoal();
 
             // =================================================================
             // AdGroupService ADD
@@ -206,6 +211,7 @@ class AdGroupServiceSample
             // create request.
             $addRequest = self::buildExampleMutateRequest(Operator::ADD, $accountId, [
                 self::createExampleAppIOSAdGroup($campaignId),
+                self::createExampleAdGroupByCampaignGoal($campaignIdByCampaignGoal)
             ]);
 
             // run
@@ -226,7 +232,11 @@ class AdGroupServiceSample
             // =================================================================
             // create request.
             $setRequest = self::buildExampleMutateRequest(Operator::SET, $accountId,
-                self::createExampleSetRequest($valuesRepositoryFacade->getAdGroupValuesRepository()->getAdGroups())
+                self::createExampleSetRequest(
+                    $valuesRepositoryFacade->getAdGroupValuesRepository()->getAdGroups(),
+                    $valuesRepositoryFacade->getCampaignValuesRepository()->findCampaignIdByPurPose(),
+                    $valuesRepositoryFacade->getAdGroupValuesRepository()->findAdGroupIdByCampaignGoal()
+                )
             );
 
             // run
@@ -330,6 +340,27 @@ class AdGroupServiceSample
     }
 
     /**
+     * example Standard AdGroup request.
+     *
+     * @param campaignId
+     * @return AdGroup
+     */
+    public static function createExampleAdGroupByCampaignGoal(int $campaignId): AdGroup
+    {
+      $adGroupBiddingStrategy = new AdGroupBiddingStrategy();
+      $adGroupBiddingStrategy->setMaxVcpmBidValue(5);
+
+      // adGroup
+      $adGroup = new AdGroup(SoapUtils::getAccountId(), $campaignId);
+      $adGroup->setAdGroupName('SampleAdGroupByCampaignGoal_CreateOn_' . SoapUtils::getCurrentTimestamp());
+      $adGroup->setUserStatus(UserStatus::ACTIVE);
+      $adGroup->setDevice([DeviceType::DESKTOP]);
+      $adGroup->setAdGroupBiddingStrategy($adGroupBiddingStrategy);
+
+      return $adGroup;
+    }
+
+    /**
      * example App IOS AdGroup request.
      *
      * @param int $campaignId
@@ -394,18 +425,47 @@ class AdGroupServiceSample
     }
 
     /**
+     * example App ANDROID AdGroup request.
+     *
+     * @param int $campaignId
+     * @return AdGroup
+     */
+    public static function createExampleAppANDROIDAdGroup2(int $campaignId): AdGroup
+    {
+      // bid
+      $bid = new ManualCPVAdGroupBid();
+      $bid->setType(BiddingStrategyType::MANUAL_CPV);
+      $bid->setMaxCpv(10000);
+
+      // adGroup
+      $adGroup = new AdGroup(SoapUtils::getAccountId(), $campaignId);
+      $adGroup->setAdGroupName('SampleAppANDROIDAdGroup_CreateOn_' . SoapUtils::getCurrentTimestamp());
+      $adGroup->setUserStatus(UserStatus::ACTIVE);
+      $adGroup->setBid($bid);
+      $adGroup->setDevice([DeviceType::SMARTPHONE]);
+      $adGroup->setDeviceOs([DeviceOsType::ANDROID]);
+      $adGroup->setDeviceApp([DeviceAppType::APP]);
+      $adGroup->setSmartDeviceCarriers([SmartDeviceCarrier::NONE]);
+
+      return $adGroup;
+    }
+
+    /**
      * example adGroup set request.
      *
      * @param AdGroup[] $adGroups
      * @return AdGroup[]
      */
-    public static function createExampleSetRequest(array $adGroups): array
+    public static function createExampleSetRequest(array $adGroups, int $campaignIdByCampaignGoal, int $adGroupIdByCampaignGoal): array
     {
         // create operands
         $operands = [];
 
         $i = 1;
         foreach ($adGroups as $adGroup) {
+            if ($adGroup->getAdGroupId() == $adGroupIdByCampaignGoal) {
+                continue;
+            }
 
             // bid
             $bid = new ManualCPCAdGroupBid();
@@ -426,6 +486,16 @@ class AdGroupServiceSample
             $operands[] = $operand;
             ++$i;
         }
+
+        // adGroup by campaignGoal
+        $adGroupBiddingStrategy = new AdGroupBiddingStrategy();
+        $adGroupBiddingStrategy->setMaxVcpmBidValue(10);
+
+        // adGroup
+        $operandByCampaignGoal = new AdGroup(SoapUtils::getAccountId(), $campaignIdByCampaignGoal);
+        $operandByCampaignGoal->setAdGroupId($adGroupIdByCampaignGoal);
+        $operandByCampaignGoal->setAdGroupBiddingStrategy($adGroupBiddingStrategy);
+        $operands[] = $operandByCampaignGoal;
 
         return $operands;
     }

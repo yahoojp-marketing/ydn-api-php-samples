@@ -12,7 +12,7 @@ use Jp\YahooApis\YDN\AdApiSample\Basic\FeedHolder\FeedHolderServiceSample;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201907\FeedFtpRequest\{
+use Jp\YahooApis\YDN\V201911\FeedFtpRequest\{
     FeedFtpRequestOperation,
     FeedFtpRequest,
     FeedFtpRequestService,

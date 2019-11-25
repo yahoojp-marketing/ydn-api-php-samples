@@ -13,8 +13,8 @@ use Jp\YahooApis\YDN\AdApiSample\Basic\Label\LabelServiceSample;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201907\Campaign\CampaignType;
-use Jp\YahooApis\YDN\V201907\CampaignLabel\{CampaignLabel, CampaignLabelOperation, CampaignLabelService, mutate, mutateResponse, Operator};
+use Jp\YahooApis\YDN\V201911\Campaign\CampaignType;
+use Jp\YahooApis\YDN\V201911\CampaignLabel\{CampaignLabel, CampaignLabelOperation, CampaignLabelService, mutate, mutateResponse, Operator};
 
 /**
  * example CampaignLabelService operation and Utility method collection.

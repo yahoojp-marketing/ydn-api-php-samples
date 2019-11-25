@@ -9,17 +9,19 @@ require_once __DIR__ . '/../../../../../../../vendor/autoload.php';
 
 use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
-use Jp\YahooApis\YDN\V201907\Dictionary\{CategorySelector,
-    ColorSetSelector,
+use Jp\YahooApis\YDN\V201911\Dictionary\{CategorySelector,
     DeviceOsType,
     DictionaryLang,
     DictionaryService,
     DisapprovalReasonSelector,
+    FeedItemGoogleProductCategorySelector,
     GeographicLocationSelector,
-    getColorSet,
-    getColorSetResponse,
+    getAudienceCategory,
+    getAudienceCategoryResponse,
     getDisapprovalReason,
     getDisapprovalReasonResponse,
+    getFeedItemGoogleProductCategory,
+    getFeedItemGoogleProductCategoryResponse,
     getGeographicLocation,
     getGeographicLocationResponse,
     getInterestCategory,
@@ -30,6 +32,8 @@ use Jp\YahooApis\YDN\V201907\Dictionary\{CategorySelector,
     getOsVersionResponse,
     getSiteCategory,
     getSiteCategoryResponse,
+    getThirdPartyTrackingDomain,
+    getThirdPartyTrackingDomainResponse,
     OsVersionSelector};
 
 /**
@@ -195,41 +199,6 @@ class DictionaryServiceSample
     }
 
     /**
-     * example get ColorSet.
-     *
-     * @param getColorSet $request
-     * @return getColorSetResponse
-     * @throws Exception
-     */
-    public static function getColorSet(getColorSet $request): getColorSetResponse
-    {
-        self::init();
-
-        // Call API
-        $response = self::$service->getColorSet($request);
-
-        // Error
-        if (!is_null($response->getError())) {
-            throw new Exception('Fail to ' . self::SERVICE_NAME . '/getColorSet.' . PHP_EOL);
-        }
-
-        // Response
-        if (is_null($response->getRval()->getValues())) {
-            throw new Exception('No response of ' . self::SERVICE_NAME . '/getColorSet.' . PHP_EOL);
-        } else {
-
-            // Error
-            foreach ($response->getRval()->getValues() as $values) {
-                if (!is_null($values->getError())) {
-                    throw new Exception('Fail to ' . self::SERVICE_NAME . '/getColorSet.' . PHP_EOL);
-                }
-            }
-        }
-
-        return $response;
-    }
-
-    /**
      * example get OsVersion.
      *
      * @param getOsVersion $request
@@ -300,6 +269,111 @@ class DictionaryServiceSample
     }
 
     /**
+     * example get AudienceCategory.
+     *
+     * @param getAudienceCategory $request
+     * @return getAudienceCategoryResponse
+     * @throws Exception
+     */
+    public static function getAudienceCategory(getAudienceCategory $request): getAudienceCategoryResponse
+    {
+        self::init();
+
+        // Call API
+        $response = self::$service->getAudienceCategory($request);
+
+        // Error
+        if (!is_null($response->getError())) {
+            throw new Exception('Fail to ' . self::SERVICE_NAME . '/getAudienceCategory.' . PHP_EOL);
+        }
+
+        // Response
+        if (is_null($response->getRval()->getValues())) {
+            throw new Exception('No response of ' . self::SERVICE_NAME . '/getAudienceCategory.' . PHP_EOL);
+        } else {
+
+            // Error
+            foreach ($response->getRval()->getValues() as $values) {
+                if (!is_null($values->getError())) {
+                    throw new Exception('Fail to ' . self::SERVICE_NAME . '/getAudienceCategory.' . PHP_EOL);
+                }
+            }
+        }
+
+        return $response;
+    }
+
+    /**
+     * example get ThirdPartyTrackingDomain.
+     *
+     * @param getThirdPartyTrackingDomain $request
+     * @return getThirdPartyTrackingDomainResponse
+     * @throws Exception
+     */
+    public static function getThirdPartyTrackingDomain(getThirdPartyTrackingDomain $request): getThirdPartyTrackingDomainResponse
+    {
+        self::init();
+
+        // Call API
+        $response = self::$service->getThirdPartyTrackingDomain($request);
+
+        // Error
+        if (!is_null($response->getError())) {
+            throw new Exception('Fail to ' . self::SERVICE_NAME . '/getThirdPartyTrackingDomain.' . PHP_EOL);
+        }
+
+        // Response
+        if (is_null($response->getRval()->getValues())) {
+            throw new Exception('No response of ' . self::SERVICE_NAME . '/getThirdPartyTrackingDomain.' . PHP_EOL);
+        } else {
+
+            // Error
+            foreach ($response->getRval()->getValues() as $values) {
+                if (!is_null($values->getError())) {
+                    throw new Exception('Fail to ' . self::SERVICE_NAME . '/getThirdPartyTrackingDomain.' . PHP_EOL);
+                }
+            }
+        }
+
+        return $response;
+    }
+
+    /**
+     * example get FeedItemGoogleProductCategory.
+     *
+     * @param getFeedItemGoogleProductCategory $request
+     * @return getFeedItemGoogleProductCategoryResponse
+     * @throws Exception
+     */
+    public static function getFeedItemGoogleProductCategory(getFeedItemGoogleProductCategory $request): getFeedItemGoogleProductCategoryResponse
+    {
+        self::init();
+
+        // Call API
+        $response = self::$service->getFeedItemGoogleProductCategory($request);
+
+        // Error
+        if (!is_null($response->getError())) {
+            throw new Exception('Fail to ' . self::SERVICE_NAME . '/getFeedItemGoogleProductCategory.' . PHP_EOL);
+        }
+
+        // Response
+        if (is_null($response->getRval()->getValues())) {
+            throw new Exception('No response of ' . self::SERVICE_NAME . '/getFeedItemGoogleProductCategory.' . PHP_EOL);
+        } else {
+
+            // Error
+            foreach ($response->getRval()->getValues() as $values) {
+                if (!is_null($values->getError())) {
+                    throw new Exception('Fail to ' . self::SERVICE_NAME . '/getFeedItemGoogleProductCategory.' . PHP_EOL);
+                }
+            }
+        }
+
+        return $response;
+    }
+
+    /**
      * example DictionaryService operation.
      * @throws Exception
      */
@@ -343,15 +417,6 @@ class DictionaryServiceSample
             self::getSiteCategory($getSiteCategoryRequest);
 
             // =================================================================
-            // DictionaryService getColorSet
-            // =================================================================
-            // create request.
-            $getColorSetRequest = self::buildExampleGetColorSetRequest();
-
-            // run
-            self::getColorSet($getColorSetRequest);
-
-            // =================================================================
             // DictionaryService getOsVersion
             // =================================================================
             // create request.
@@ -368,6 +433,33 @@ class DictionaryServiceSample
 
             // run
             self::getMediaAdFormat($getMediaAdFormatRequest);
+
+            // =================================================================
+            // DictionaryService getAudienceCategory
+            // =================================================================
+            // create request.
+            $getAudienceCategoryRequest = self::buildExampleGetAudienceCategoryRequest();
+
+            // run
+            self::getAudienceCategory($getAudienceCategoryRequest);
+
+            // =================================================================
+            // DictionaryService getThirdPartyTrackingDomain
+            // =================================================================
+            // create request.
+            $getThirdPartyTrackingDomainRequest = self::buildExampleGetThirdPartyTrackingDomainRequest();
+
+            // run
+            self::getThirdPartyTrackingDomain($getThirdPartyTrackingDomainRequest);
+
+            // =================================================================
+            // DictionaryService getFeedItemGoogleProductCategory
+            // =================================================================
+            // create request.
+            $getFeedItemGoogleProductCategoryRequest = self::buildExampleGetFeedItemGoogleProductCategoryRequest();
+
+            // run
+            self::getFeedItemGoogleProductCategory($getFeedItemGoogleProductCategoryRequest);
 
         } catch (Exception $e) {
             print $e->getMessage() . PHP_EOL;
@@ -424,18 +516,6 @@ class DictionaryServiceSample
     }
 
     /**
-     * example getColorSet request.
-     *
-     * @return getColorSet
-     */
-    public static function buildExampleGetColorSetRequest(): getColorSet
-    {
-        return new getColorSet(
-            new ColorSetSelector(DictionaryLang::EN)
-        );
-    }
-
-    /**
      * example getOsVersion request.
      *
      * @return getOsVersion
@@ -455,6 +535,40 @@ class DictionaryServiceSample
     public static function buildExampleGetMediaAdFormatRequest(): getMediaAdFormat
     {
         return new getMediaAdFormat();
+    }
+
+    /**
+     * example getAudienceCategory request.
+     *
+     * @return getAudienceCategory
+     */
+    public static function buildExampleGetAudienceCategoryRequest(): getAudienceCategory
+    {
+        return new getAudienceCategory(
+            new CategorySelector(DictionaryLang::EN)
+        );
+    }
+
+    /**
+     * example getThirdPartyTrackingDomain request.
+     *
+     * @return getThirdPartyTrackingDomain
+     */
+    public static function buildExampleGetThirdPartyTrackingDomainRequest(): getThirdPartyTrackingDomain
+    {
+        return new getThirdPartyTrackingDomain();
+    }
+
+    /**
+     * example getFeedItemGoogleProductCategory request.
+     *
+     * @return getFeedItemGoogleProductCategory
+     */
+    public static function buildExampleGetFeedItemGoogleProductCategoryRequest(): getFeedItemGoogleProductCategory
+    {
+        return new getFeedItemGoogleProductCategory(
+            new FeedItemGoogleProductCategorySelector(DictionaryLang::EN)
+        );
     }
 }
 

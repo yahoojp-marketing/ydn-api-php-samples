@@ -11,8 +11,8 @@ use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201907\Paging;
-use Jp\YahooApis\YDN\V201907\ReportDefinition\{get,
+use Jp\YahooApis\YDN\V201911\Paging;
+use Jp\YahooApis\YDN\V201911\ReportDefinition\{get,
     getReportFields,
     getReportFieldsResponse,
     getResponse,

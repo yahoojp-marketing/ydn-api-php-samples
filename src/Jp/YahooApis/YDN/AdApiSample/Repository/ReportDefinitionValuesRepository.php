@@ -6,7 +6,7 @@
 namespace Jp\YahooApis\YDN\AdApiSample\Repository;
 
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201907\ReportDefinition\ReportDefinition;
+use Jp\YahooApis\YDN\V201911\ReportDefinition\ReportDefinition;
 
 /**
  * Utility method collection for PHP Sample Program.

@@ -1,6 +1,6 @@
 # Yahoo!プロモーション広告API（YDN） PHPサンプルプログラム
 
-Yahoo!プロモーション広告API（YDN）のVer.201907向けのPHPサンプルプログラムです。
+Yahoo!プロモーション広告API（YDN）のVer.201911向けのPHPサンプルプログラムです。
 
 ご利用前に、以下のReadMeをご確認ください。
 

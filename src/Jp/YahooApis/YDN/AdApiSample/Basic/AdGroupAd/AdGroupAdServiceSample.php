@@ -9,10 +9,12 @@ require_once __DIR__ . '/../../../../../../../vendor/autoload.php';
 
 use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Basic\AdGroup\AdGroupServiceSample;
+use Jp\YahooApis\YDN\AdApiSample\Basic\Media\MediaServiceSample;
+use Jp\YahooApis\YDN\AdApiSample\Basic\Video\VideoServiceSample;
 use Jp\YahooApis\YDN\AdApiSample\Repository\ValuesRepositoryFacade;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201907\AdGroupAd\{AdGroupAd,
+use Jp\YahooApis\YDN\V201911\AdGroupAd\{AdGroupAd,
     AdGroupAdOperation,
     AdGroupAdSelector,
     AdGroupAdService,
@@ -22,14 +24,21 @@ use Jp\YahooApis\YDN\V201907\AdGroupAd\{AdGroupAd,
     AdType,
     TextAd,
     DynamicAd,
+    ResponsiveVideoAd,
+    ButtonText,
+    ManualCPVAdGroupAdBid,
     get,
     getResponse,
     mutate,
     mutateResponse,
     Operator,
     UserStatus};
-use Jp\YahooApis\YDN\V201907\Campaign\CampaignType;
-use Jp\YahooApis\YDN\V201907\Paging;
+use Jp\YahooApis\YDN\V201911\Campaign\CampaignType;
+use Jp\YahooApis\YDN\V201911\Paging;
+use Jp\YahooApis\YDN\V201911\{
+    Media\Operator as MediaOperator,
+    Video\Operator as VideoOperator,
+};
 
 /**
  * example AdGroupAdService operation and Utility method collection.
@@ -193,7 +202,48 @@ class AdGroupAdServiceSample
             $campaignIdStandard = $valuesRepositoryFacade->getCampaignValuesRepository()->findCampaignId(
                 CampaignType::STANDARD
             );
+            $campaignIdVideoAd = $valuesRepositoryFacade->getCampaignValuesRepository()->findCampaignIdAdProductType("VIDEO_AD");
             $adGroupIdStandard = $valuesRepositoryFacade->getAdGroupValuesRepository()->findAdGroupId($campaignIdStandard);
+            $adGroupIdVideoAd = $valuesRepositoryFacade->getAdGroupValuesRepository()->findAdGroupId($campaignIdVideoAd);
+
+            // =================================================================
+            // VideoService Upload
+            // =================================================================
+            $videoFileName = "videoUploadSample2.mp4";
+            $getUploadUrlResponse = VideoServiceSample::getUploadUrl(VideoServiceSample::buildExampleGetUploadUrl($accountId));
+            $uploadUrl = $getUploadUrlResponse->getRval()->getValues()[0]->getUploadUrlValue()->getUploadUrl();
+
+            // upload
+            $file_path = __DIR__ . '/../../../../../../../upload/' . $videoFileName;
+            $uploadResponse = VideoServiceSample::upload($uploadUrl, $file_path);
+            if ($uploadResponse === false) {
+                exit();
+            }
+            $uploadResponseObj = json_decode($uploadResponse);
+            $videoId = $uploadResponseObj->ResultSet->Result[0]->uploadVideoData->mediaId;
+
+            // =================================================================
+            // MediaService ADD
+            // =================================================================
+            // thumbnail
+            $addRequest = MediaServiceSample::buildExampleMutateRequest(MediaOperator::ADD, $accountId, [
+                MediaServiceSample::createExampleMedia('ThumbnailMedia1.jpg', false, true),
+            ]);
+
+            // run
+            $addResponse = MediaServiceSample::mutate($addRequest);
+            $valuesHolder->setMediaValuesList($addResponse->getRval()->getValues());
+            $thumbnailId = $addResponse->getRval()->getValues()[0]->getMediaRecord()->getMediaId();
+
+            // thumbnail
+            $addRequest = MediaServiceSample::buildExampleMutateRequest(MediaOperator::ADD, $accountId, [
+                MediaServiceSample::createExampleMedia('LogoMedia1.jpg', true, false),
+            ]);
+
+            // run
+            $addResponse = MediaServiceSample::mutate($addRequest);
+            $valuesHolder->setMediaValuesList($addResponse->getRval()->getValues());
+            $logoId = $addResponse->getRval()->getValues()[0]->getMediaRecord()->getMediaId();
 
             // =================================================================
             // AdGroupAdService ADD
@@ -201,6 +251,7 @@ class AdGroupAdServiceSample
             // create request.
             $addRequest = self::buildExampleMutateRequest(Operator::ADD, $accountId, [
                 self::createExampleExtendedTextAd($campaignIdStandard, $adGroupIdStandard),
+                self::createExampleResponsiveVideoAd($campaignIdVideoAd, $adGroupIdVideoAd, $thumbnailId, $videoId, $logoId)
             ]);
 
             // run
@@ -219,9 +270,10 @@ class AdGroupAdServiceSample
             // =================================================================
             // AdGroupAdService SET
             // =================================================================
+            $adIdResponsiveVideoAd = $valuesRepositoryFacade->getAdGroupAdValuesRepository()->findAdId($campaignIdVideoAd, $adGroupIdVideoAd, AdType::RESPONSIVE_VIDEO_AD);
             // create request.
             $setRequest = self::buildExampleMutateRequest(Operator::SET, $accountId,
-                self::createExampleSetRequest($valuesRepositoryFacade->getAdGroupAdValuesRepository()->getAdGroupAds())
+                self::createExampleSetRequest($valuesRepositoryFacade->getAdGroupAdValuesRepository()->getAdGroupAds(), $adIdResponsiveVideoAd)
             );
 
             // run
@@ -235,6 +287,22 @@ class AdGroupAdServiceSample
 
             // run
             self::mutate($removeRequest);
+
+            // =================================================================
+            // VideoService REMOVE
+            // =================================================================
+            $removeRequest = VideoServiceSample::buildExampleMutateRequest(
+                VideoOperator::REMOVE, $accountId, array(VideoServiceSample::createExampleRemoveRequest($accountId, $videoId))
+            );
+            VideoServiceSample::mutate($removeRequest);
+
+            // =================================================================
+            // MediaService REMOVE
+            // =================================================================
+            $removeRequest = MediaServiceSample::buildExampleMutateRequest(
+                MediaOperator::REMOVE, $accountId, $valuesRepositoryFacade->getMediaValuesRepository()->getMediaRecord()
+            );
+            MediaServiceSample::mutate($removeRequest);
 
         } catch (Exception $e) {
             print $e->getMessage() . PHP_EOL;
@@ -361,12 +429,53 @@ class AdGroupAdServiceSample
     }
 
     /**
+     * example Banner Video Ad request.
+     *
+     * @param campaignId
+     * @param adGroupId
+     * @param thumbnailId
+     * @param videoId
+     * @param logoId
+     * @return AdGroupAd
+     */
+    public static function createExampleResponsiveVideoAd(int $campaignId, int $adGroupId, int $thumbnailId, int $videoId, int $logoId): AdGroupAd
+    {
+      // ad
+      $ad = new ResponsiveVideoAd();
+      $ad->setType(AdType::RESPONSIVE_VIDEO_AD);
+      $ad->setThumbnailMediaId($thumbnailId);
+      $ad->setHeadline("headline");
+      $ad->setDescription("description");
+      $ad->setDisplayUrl("www.yahoo.co.jp");
+      $ad->setUrl("http://www.yahoo.co.jp/");
+      $ad->setButtonText(ButtonText::APPLY_NOW);
+      $ad->setPrincipal("principal");
+      $ad->setLogoMediaId($logoId);
+
+      // bid
+      $bid = new ManualCPVAdGroupAdBid();
+      $bid->setType(BiddingStrategyType::MANUAL_CPV);
+      $bid->setMaxCpv(10000);
+
+      // adGroupAd
+      $adGroupAd = new AdGroupAd(SoapUtils::getAccountId(), $campaignId, $adGroupId);
+      $adGroupAd->setAdName('SampleDynamicAd_CreateOn_' . SoapUtils::getCurrentTimestamp());
+      $adGroupAd->setUserStatus(UserStatus::ACTIVE);
+      $adGroupAd->setMediaId($videoId);
+      $adGroupAd->setBid($bid);
+      $adGroupAd->setAd($ad);
+
+      return $adGroupAd;
+    }
+
+    /**
      * example adGroupAd set request.
      *
      * @param AdGroupAd[] $adGroupAds
+     * @param int $adIdResponsiveVideoAd
      * @return AdGroupAd[] AdGroupAdOperation entity.
      */
-    public static function createExampleSetRequest(array $adGroupAds): array
+    public static function createExampleSetRequest(array $adGroupAds, int $adIdResponsiveVideoAd): array
     {
         $operands = [];
 
@@ -376,6 +485,9 @@ class AdGroupAdServiceSample
         $bid->setType(BiddingStrategyType::MANUAL_CPC);
 
         foreach ($adGroupAds as $adGroupAd) {
+            if ($adGroupAd->getAdId() == $adIdResponsiveVideoAd) {
+                continue;
+            }
             $operand = new AdGroupAd($adGroupAd->getAccountId(), $adGroupAd->getCampaignId(), $adGroupAd->getAdGroupId());
             $operand->setAdId($adGroupAd->getAdId());
             $operand->setAdName('UpdateOn_' . $adGroupAd->getAdId() . '_' . SoapUtils::getCurrentTimestamp());

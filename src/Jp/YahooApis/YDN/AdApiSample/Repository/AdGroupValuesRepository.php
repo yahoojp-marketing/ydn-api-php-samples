@@ -6,7 +6,8 @@
 namespace Jp\YahooApis\YDN\AdApiSample\Repository;
 
 use Jp\YahooApis\YDN\AdApiSample\Util\ValuesHolder;
-use Jp\YahooApis\YDN\V201907\AdGroup\AdGroup;
+use Jp\YahooApis\YDN\V201911\AdGroup\AdGroup;
+use Jp\YahooApis\YDN\V201911\AdGroup\CampaignBiddingStrategyType;
 
 /**
  * Utility method collection for PHP Sample Program.
@@ -67,6 +68,23 @@ class AdGroupValuesRepository
         }
         foreach ($this->valuesHolder->getAdGroupValuesList() as $adGroupValues) {
             if ($adGroupValues->getAdGroup()->getCampaignId() === $campaignId) {
+                return $adGroupValues->getAdGroup()->getAdGroupId();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param
+     * @return int|null
+     */
+    public function findAdGroupIdByCampaignGoal(): ?int
+    {
+        if (is_null($this->valuesHolder->getAdGroupValuesList())) {
+            return null;
+        }
+        foreach ($this->valuesHolder->getAdGroupValuesList() as $adGroupValues) {
+            if (CampaignBiddingStrategyType::NONE != $adGroupValues->getAdGroup()->getAdGroupBiddingStrategy()->getCampaignBiddingStrategyType()) {
                 return $adGroupValues->getAdGroup()->getAdGroupId();
             }
         }

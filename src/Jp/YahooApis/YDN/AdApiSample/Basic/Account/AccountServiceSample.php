@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../../../../../../vendor/autoload.php';
 
 use Exception;
 use Jp\YahooApis\YDN\AdApiSample\Util\SoapUtils;
-use Jp\YahooApis\YDN\V201907\Account\{Account,
+use Jp\YahooApis\YDN\V201911\Account\{Account,
     AccountOperation,
     AccountSelector,
     AccountService,
@@ -22,7 +22,7 @@ use Jp\YahooApis\YDN\V201907\Account\{Account,
     mutate,
     mutateResponse,
     Operator};
-use Jp\YahooApis\YDN\V201907\Paging;
+use Jp\YahooApis\YDN\V201911\Paging;
 
 /**
  * example AccountService operation and Utility method collection.
